@@ -4,6 +4,8 @@ import java.util.Set;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -16,9 +18,13 @@ import javax.persistence.OneToOne;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Collaborateur {
 	
-	
-	@EmbeddedId
-	private CollaborateurId id;
+	@Id
+	@GeneratedValue
+	private Long id;
+	private String nom;
+	private String prenom;
+	private int matricule;
+	private boolean chef;
 	
 	@OneToOne
 	@JoinColumn(name="timesheet_id", nullable=true)
@@ -29,15 +35,47 @@ public class Collaborateur {
     @JoinColumn(name="equipe_id", nullable=true)
     private Equipe equipe;
 	
-	@ManyToMany(mappedBy="collaborateurs")
+	@ManyToMany
 	private Set<Tache> taches;
 
-	public CollaborateurId getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(CollaborateurId id) {
+	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public String getPrenom() {
+		return prenom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+	public int getMatricule() {
+		return matricule;
+	}
+
+	public void setMatricule(int matricule) {
+		this.matricule = matricule;
+	}
+
+	public boolean isChef() {
+		return chef;
+	}
+
+	public void setChef(boolean chef) {
+		this.chef = chef;
 	}
 
 	public Timesheet getTimesheet() {
@@ -63,6 +101,7 @@ public class Collaborateur {
 	public void setTaches(Set<Tache> taches) {
 		this.taches = taches;
 	}
+
 
 		
 	

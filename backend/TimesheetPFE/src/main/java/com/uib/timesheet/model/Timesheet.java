@@ -16,27 +16,27 @@ public class Timesheet {
 
 	@Id
 	@GeneratedValue
-	private String id;
+	private Long id;
 	private Date mois;
 	private Date semaine;
 	
 	
-	@OneToOne(mappedBy ="timesheet")
+	/*@OneToOne(mappedBy ="timesheet")
 	@JoinColumns({
 		  @JoinColumn(name = "nom", insertable = false, updatable = false),
 		  @JoinColumn(name = "prenom", insertable = false, updatable = false),
 		  @JoinColumn(name = "matricule", insertable = false, updatable = false),
 		  @JoinColumn(name = "chef_de_projet", insertable = false, updatable = false),
 		})
-	private Collaborateur collaborateur;
+	private Collaborateur collaborateur;*/
 
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -60,7 +60,7 @@ public class Timesheet {
 		this.semaine = semaine;
 	}
 
-
+/*
 	public Collaborateur getCollaborateur() {
 		return collaborateur;
 	}
@@ -69,7 +69,7 @@ public class Timesheet {
 	public void setCollaborateur(Admin collaborateur) {
 		this.collaborateur = collaborateur;
 	}
-	
+	*/
 	
 	
 	

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.uib.timesheet.model.Collaborateur;
+import com.uib.timesheet.model.Timesheet;
 import com.uib.timesheet.repository.CollaborateurRepository;
 
 @Service
@@ -22,31 +23,27 @@ public class CollaborateurService {
 	@Autowired
 	private CollaborateurRepository collaborateurRepository;
 	
-	public List<Collaborateur> findByNom(String nom) {
-		return collaborateurRepository.findByIdNom(nom);
-	}
-	
-	public List<Collaborateur> findByPrenom(String prenom){
-		return collaborateurRepository.findByIdPrenom(prenom);
-	}
-	
-	public List<Collaborateur> findByChef(boolean Chef){
+	/*public List<Collaborateur> findByChef(boolean Chef){
 		return collaborateurRepository.findByIdChef(Chef);
+	}*/
+	public Collaborateur findById(Long id) {
+		return collaborateurRepository.findById(id).get();
 	}
-	public Collaborateur findBymatricule(int matr) {
-		return collaborateurRepository.findByIdMatricule(matr);
-	}
-	
 	public void addOrUpdateCollaborateur(Collaborateur cb) {
 		collaborateurRepository.save(cb);
 	}
 	public List<Collaborateur> findAll(){
 		return (List<Collaborateur>) collaborateurRepository.findAll();
 	}
-	@Transactional
-	public void deleteCollaborateur(int matr) {
-		Query query = entityManager.createQuery("DELETE FROM Collaborateur C WHERE C.id.matricule = : CollaborateurMatr");
-		query.setParameter("CollaborateurMatr", matr).executeUpdate();
+	
+	public void deleteCollaborateur(Long id) {
+		collaborateurRepository.deleteById(id);
+	}
+	
+	public Timesheet getTimesheet(Long id) {
+		Query query = entityManager.createQuery("SELECT timesheet FROM Collaborateur C WHERE C.id = : CollaborateurId");
+		query.setParameter("CollaborateurId", id);
+		return (Timesheet) query.getSingleResult();
 	}
 	
 	

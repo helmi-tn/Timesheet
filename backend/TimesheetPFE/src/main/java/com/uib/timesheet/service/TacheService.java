@@ -67,13 +67,12 @@ public class TacheService {
     	return  query.getResultList();
     }
     
-    public List<Tache> findByCollaborateurNom(String collaborateurNomId){
-    	Query query = entityManager.createQuery("FROM Tache T "
-    			+ "JOIN T.collaborateurs TC "
-    			+ "WHERE TC.id.nom = :CollaborateurNomId");
+  /*  public List<Tache> findByCollaborateurNom(String collaborateurNomId){
+    	Query query = entityManager.createQuery("SELECT C.Tache FROM Collaborateur C "
+    			+ "WHERE C.id.nom = :CollaborateurNomId");
     	query.setParameter("CollaborateurNomId", collaborateurNomId);
     	return  query.getResultList();
-    }
+    }*/
     
 }
 

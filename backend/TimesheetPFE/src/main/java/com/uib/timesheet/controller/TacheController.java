@@ -37,10 +37,10 @@ public class TacheController {
 	public List<Tache> getAllProjetTaches(@PathVariable Long projetId) {
 		return tacheService.findByProjetId(projetId);
 	}
-	@GetMapping("/bycollaborateur/{collaborateurNomId}")
+	/*@GetMapping("/bycollaborateur/{collaborateurNomId}")
 	public List<Tache> getAllCollaborateur(@PathVariable String collaborateurNomId){
 		return tacheService.findByCollaborateurNom(collaborateurNomId);
-	}
+	}*/
 	
 	@GetMapping("/{id}")
 	public Tache getTache(@PathVariable Long id){	
@@ -65,19 +65,5 @@ public class TacheController {
 		tacheService.deleteTache(id);
 	}
 	
-	
-	
-	
-	/*@GetMapping("/taches/all")
-	public List<Tache> getAll(){
-		return (List<Tache>) tacheService.findAll();
-	}*/
-	
-	/*
-	@GetMapping("/taches/{id}")
-	public Tache getTacheById(@PathVariable Long id){
-		return tacheService.getById(id);
-	}*/
-
 	
 }

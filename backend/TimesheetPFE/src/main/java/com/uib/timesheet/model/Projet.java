@@ -32,18 +32,17 @@ public class Projet {
 	}
 
 
-	@OneToMany(mappedBy="projet")
+	/*@OneToMany(mappedBy="projet")
 	private Set<Tache> taches;
-
-	public Projet(Long id, String nom, LocalDateTime datededbut, LocalDateTime datedefin, String chef,
-			Set<Tache> taches) {
+*/
+	public Projet(Long id, String nom, LocalDateTime datededbut, LocalDateTime datedefin, String chef) {
 		super();
 		this.id = id;
 		this.nom = nom;
 		this.datededbut = datededbut;
 		this.datedefin = datedefin;
 		this.chef = chef;
-		this.taches = taches;
+		//this.taches = taches;
 	}
 
 
@@ -111,7 +110,7 @@ public class Projet {
 
 
 
-	public Set<Tache> getTaches() {
+	/*public Set<Tache> getTaches() {
 		return taches;
 	}
 
@@ -119,7 +118,7 @@ public class Projet {
 
 	public void setTaches(Set<Tache> taches) {
 		this.taches = taches;
-	}
+	}*/
 	
 	
 	

@@ -1,15 +1,14 @@
 package com.uib.timesheet.model;
 
-import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name ="tache")
@@ -21,14 +20,14 @@ public class Tache {
 	private String description;
 	
 	
-
+/*
 	@ManyToMany
 	@JoinColumn(name="Collaborateurs", nullable=true)
 	private Set<Collaborateur> collaborateurs;
-
+*/
 
 	
-	@ManyToOne
+	@ManyToOne(cascade=javax.persistence.CascadeType.REMOVE)
 	@JoinColumn(name="projet_id", nullable=true)
 	private Projet projet;
 
@@ -40,12 +39,12 @@ public class Tache {
 
 
 
-	public Tache(Long id, String nom, String description, Set<Collaborateur> collaborateurs, Projet projet) {
+	public Tache(Long id, String nom, String description,  Projet projet) {
 		super();
 		this.id = id;
 		this.nom = nom;
 		this.description = description;
-		this.collaborateurs = collaborateurs;
+	//	this.collaborateurs = collaborateurs;
 		this.projet = projet;
 	}
 
@@ -88,7 +87,7 @@ public class Tache {
 
 
 
-	public Set<Collaborateur> getCollaborateurs() {
+	/*public Set<Collaborateur> getCollaborateurs() {
 		return collaborateurs;
 	}
 
@@ -96,7 +95,7 @@ public class Tache {
 
 	public void setCollaborateurs(Set<Collaborateur> collaborateurs) {
 		this.collaborateurs = collaborateurs;
-	}
+	}*/
 
 
 

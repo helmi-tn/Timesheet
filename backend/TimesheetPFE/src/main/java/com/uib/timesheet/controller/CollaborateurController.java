@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uib.timesheet.model.Collaborateur;
+import com.uib.timesheet.model.Timesheet;
 import com.uib.timesheet.service.CollaborateurService;
 
 @RestController
@@ -24,25 +25,33 @@ public class CollaborateurController {
 	@Autowired
 	private CollaborateurService collaborateurService;
 	
-	@GetMapping("/nom/{nom}")
-	public List<Collaborateur> findByNom(@PathVariable String nom) {
-		return collaborateurService.findByNom(nom);
+	
+	@GetMapping("/{id}")
+	public Collaborateur findById(@PathVariable Long id) {
+		return collaborateurService.findById(id);
 	}
-	@GetMapping("/prenom/{prenom}")
-	public List<Collaborateur> findByPrenom(@PathVariable String prenom) {
-		return collaborateurService.findByPrenom(prenom);
-	}
-	@GetMapping("/chef/{chef}")
-	public List<Collaborateur> findByChef(@PathVariable boolean chef) {
-		return collaborateurService.findByChef(chef);
-	}
-	@GetMapping("/{matr}")
-	public Collaborateur findByMatr(@PathVariable int matr) {
-		return collaborateurService.findBymatricule(matr);
-	}
-	@GetMapping("/")
+	@GetMapping("/all")
 	public List<Collaborateur> getAll(){
 		return collaborateurService.findAll();
+	}
+	
+	@PostMapping("/")
+	public void addCollaborateur(@RequestBody Collaborateur cb) {
+		collaborateurService.addOrUpdateCollaborateur(cb);
+	}
+	@PutMapping("/{id}")
+	public void updateCollaborateur(@RequestBody Collaborateur cb) {
+		collaborateurService.addOrUpdateCollaborateur(cb);
+	}
+	
+	@DeleteMapping("/{id}")
+	public void deleteCollaborateur(@PathVariable Long id) {
+		collaborateurService.deleteCollaborateur(id);
+	}
+	
+	@GetMapping("/{id}/timesheet")
+	public Timesheet getTimesheet(@PathVariable Long id) {
+		return collaborateurService.getTimesheet(id);
 	}
 	
 	@GetMapping("/byequipe/{equipeId}")
@@ -53,20 +62,5 @@ public class CollaborateurController {
 	public List<Collaborateur> findByIdTache(@PathVariable long tacheId){
 		return collaborateurService.findByIdTache(tacheId);
 	}
-	
-	@PostMapping("/")
-	public void addCollaborateur(@RequestBody Collaborateur cb) {
-		collaborateurService.addOrUpdateCollaborateur(cb);
-	}
-	@PutMapping("/{matr}")
-	public void updateCollaborateur(@RequestBody Collaborateur cb) {
-		collaborateurService.addOrUpdateCollaborateur(cb);
-	}
-	
-	@DeleteMapping("/{matr}")
-	public void deleteCollaborateur(@PathVariable int matr) {
-		collaborateurService.deleteCollaborateur(matr);
-	}
-	
 	
 }
