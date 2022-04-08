@@ -1,8 +1,9 @@
 package com.uib.timesheet.model;
 
+import java.util.List;
 import java.util.Set;
 
-import javax.persistence.EmbeddedId;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,7 +12,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 
 
 @Entity
@@ -26,9 +28,12 @@ public class Collaborateur {
 	private int matricule;
 	private boolean chef;
 	
+	
+	/*
 	@OneToOne
 	@JoinColumn(name="timesheet_id", nullable=true)
-	private Timesheet timesheet;
+	private Monthsheet monthsheet;
+	*/
 	
 	
 	@ManyToOne
@@ -38,6 +43,13 @@ public class Collaborateur {
 	@ManyToMany
 	private Set<Tache> taches;
 
+	@OneToMany(cascade = CascadeType.ALL)
+	@OrderColumn
+	private List<Monthsheet> monthsheets;
+	
+	
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -78,12 +90,12 @@ public class Collaborateur {
 		this.chef = chef;
 	}
 
-	public Timesheet getTimesheet() {
-		return timesheet;
+	public List<Monthsheet> getMonthsheets() {
+		return monthsheets;
 	}
 
-	public void setTimesheet(Timesheet timesheet) {
-		this.timesheet = timesheet;
+	public void setMonthsheets(List<Monthsheet> monthsheet) {
+		this.monthsheets = monthsheet;
 	}
 
 	public Equipe getEquipe() {
@@ -102,7 +114,7 @@ public class Collaborateur {
 		this.taches = taches;
 	}
 
-
+	
 		
 	
 

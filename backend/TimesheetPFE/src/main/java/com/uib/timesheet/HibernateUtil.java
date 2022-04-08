@@ -13,7 +13,7 @@ import com.uib.timesheet.model.Collaborateur;
 import com.uib.timesheet.model.Equipe;
 import com.uib.timesheet.model.Projet;
 import com.uib.timesheet.model.Tache;
-import com.uib.timesheet.model.Timesheet;
+import com.uib.timesheet.model.Monthsheet;
 
 public class HibernateUtil {
     private static SessionFactory sessionFactory;
@@ -41,7 +41,7 @@ public class HibernateUtil {
                 configuration.addAnnotatedClass(Tache.class);
                 configuration.addAnnotatedClass(Collaborateur.class);
                 configuration.addAnnotatedClass(Equipe.class);
-                configuration.addAnnotatedClass(Timesheet.class);
+                configuration.addAnnotatedClass(Monthsheet.class);
                 configuration.addAnnotatedClass(Admin.class);
                 configuration.addAnnotatedClass(Projet.class);
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
