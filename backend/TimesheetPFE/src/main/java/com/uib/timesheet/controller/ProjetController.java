@@ -18,18 +18,18 @@ import com.uib.timesheet.model.Projet;
 import com.uib.timesheet.service.ProjetService;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/admin/projets")
-@CrossOrigin
 public class ProjetController {
 
 	@Autowired
 	ProjetService projetService;
 	
 	@GetMapping("/{id}")
-	public Optional<Projet> getProjet(@PathVariable Long id) {
+	public Projet getProjet(@PathVariable Long id) {
 		return projetService.findById(id);
 	}
-	@GetMapping("/all")
+	@GetMapping("")
 	public List<Projet> getAll(){
 		return projetService.findAll();
 	}
@@ -37,7 +37,7 @@ public class ProjetController {
 	public void deleteProjet(@PathVariable Long id) {
 		projetService.deleteById(id);
 	}
-	@PostMapping("/")
+	@PostMapping("")
 	public void addProjet(@RequestBody Projet pt) {
 		projetService.addOrUpdateProjet(pt);
 	}
@@ -45,6 +45,14 @@ public class ProjetController {
 	public void UpdateProjet(@RequestBody Projet pt) {
 		projetService.addOrUpdateProjet(pt);
 	}
-	
+	@GetMapping("/{id}/total")
+	public Float getTotal(@PathVariable Long id) {
+		return projetService.getTotal(id);
+	}
+	@GetMapping("/totals")
+	public List<Float> getTotals(){
+		return projetService.getTotalAll();
+	}
+
 	
 }

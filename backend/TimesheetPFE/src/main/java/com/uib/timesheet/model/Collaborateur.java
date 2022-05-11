@@ -1,7 +1,6 @@
 package com.uib.timesheet.model;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -23,39 +24,77 @@ public class Collaborateur {
 	@Id
 	@GeneratedValue
 	private Long id;
+	private String email;
+	private String motdepasse;
 	private String nom;
 	private String prenom;
 	private int matricule;
 	private boolean chef;
 	
 	
-	/*
+	/* gx
 	@OneToOne
 	@JoinColumn(name="timesheet_id", nullable=true)
 	private Monthsheet monthsheet;
 	*/
 	
-	
+
 	@ManyToOne
     @JoinColumn(name="equipe_id", nullable=true)
     private Equipe equipe;
 	
-	@ManyToMany
-	private Set<Tache> taches;
 
+	@ManyToMany(cascade = CascadeType.ALL)
+	private List<Tache> taches;
+	
+	
 	@OneToMany(cascade = CascadeType.ALL)
 	@OrderColumn
 	private List<Monthsheet> monthsheets;
 	
 	
 	
-	
+
+	public Collaborateur(Long id, String email, String motdepasse, String nom, String prenom, int matricule,
+			boolean chef, Equipe equipe, List<Tache> taches, List<Monthsheet> monthsheets) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.motdepasse = motdepasse;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.matricule = matricule;
+		this.chef = chef;
+		this.equipe = equipe;
+		this.taches = taches;
+		this.monthsheets = monthsheets;
+	}
+
+	public Collaborateur() {
+	}
+
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getMotdepasse() {
+		return motdepasse;
+	}
+
+	public void setMotdepasse(String motdepasse) {
+		this.motdepasse = motdepasse;
 	}
 
 	public String getNom() {
@@ -90,14 +129,6 @@ public class Collaborateur {
 		this.chef = chef;
 	}
 
-	public List<Monthsheet> getMonthsheets() {
-		return monthsheets;
-	}
-
-	public void setMonthsheets(List<Monthsheet> monthsheet) {
-		this.monthsheets = monthsheet;
-	}
-
 	public Equipe getEquipe() {
 		return equipe;
 	}
@@ -106,18 +137,22 @@ public class Collaborateur {
 		this.equipe = equipe;
 	}
 
-	public Set<Tache> getTaches() {
+	public List<Tache> getTaches() {
 		return taches;
 	}
 
-	public void setTaches(Set<Tache> taches) {
+	public void setTaches(List<Tache> taches) {
 		this.taches = taches;
 	}
 
-	
-		
-	
+	public List<Monthsheet> getMonthsheets() {
+		return monthsheets;
+	}
 
+	public void setMonthsheets(List<Monthsheet> monthsheets) {
+		this.monthsheets = monthsheets;
+	}
+	
 	
 	
 	

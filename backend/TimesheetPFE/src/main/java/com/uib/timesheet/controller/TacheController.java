@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uib.timesheet.model.Tache;
@@ -20,8 +21,8 @@ import com.uib.timesheet.service.TacheService;
 
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/admin/taches")
-@CrossOrigin
 public class TacheController {
 	
 	@RequestMapping("/hello") 
@@ -47,7 +48,7 @@ public class TacheController {
 		return tacheService.getById(id);
 	}
 	
-	@GetMapping("/all")
+	@GetMapping("")
 	public List<Tache> getAll(){
 		return tacheService.GetAll();
 	}
@@ -64,6 +65,13 @@ public class TacheController {
 	public void deleteTache(@PathVariable Long id) {
 		tacheService.deleteTache(id);
 	}
-	
+	@GetMapping("/collaborateur/{collabId}")
+	public List<Tache> getByColabId(@PathVariable Long collabId){
+		return tacheService.findByCollaborateurId(collabId);
+	}
+	@RequestMapping(value="/updatetotal/{id_tache}",produces = "application/json",  method= {RequestMethod.PATCH})
+	public void updateTotalTache(@PathVariable Long id_tache,@RequestBody String total) {
+		tacheService.updatetTotal(id_tache, total);
+	}
 	
 }

@@ -18,10 +18,14 @@ import org.springframework.stereotype.Service;
 import com.uib.timesheet.model.Collaborateur;
 import com.uib.timesheet.model.Daysheet;
 import com.uib.timesheet.model.Monthsheet;
+import com.uib.timesheet.model.Projet;
 import com.uib.timesheet.model.Tache;
 import com.uib.timesheet.repository.CollaborateurRepository;
 import com.uib.timesheet.repository.DaysheetRepository;
+import com.uib.timesheet.repository.EquipeRepository;
 import com.uib.timesheet.repository.MonthsheetRepository;
+import com.uib.timesheet.repository.ProjetRepository;
+import com.uib.timesheet.repository.TacheRepository;
 
 
 @Service
@@ -38,6 +42,14 @@ public class CollaborateurService {
 	
 	@Autowired
 	private DaysheetRepository daysheetRepository;
+	@Autowired
+	private ProjetRepository projetRepository;
+	@Autowired
+	private TacheRepository tacheRepository;
+	@Autowired
+	private EquipeRepository equipeRepository;
+	
+	private EquipeService equipeService;
 	
 	/*public List<Collaborateur> findByChef(boolean Chef){
 		return collaborateurRepository.findByIdChef(Chef);
@@ -51,8 +63,46 @@ public class CollaborateurService {
 	public void updateCollab(Collaborateur cb) {
 		collaborateurRepository.save(cb);
 	}
+	public List<Collaborateur> findAll(){
+		return (List<Collaborateur>) collaborateurRepository.findAll();
+	}
+	
+	public void deleteCollaborateur(Long id) {
+		collaborateurRepository.deleteById(id);
+	}
+	
+	public List<Collaborateur> findByIdEquipe(Long equipeId){
+		Query query = entityManager.createQuery("FROM Collaborateur C "
+				+ "JOIN C.equipe CE "
+				+ "WHERE CE.id = :EquipeId");
+		query.setParameter("EquipeId", equipeId);
+		return  query.getResultList();
+	}
+	
+	public List<Collaborateur> findByIdTache(Long tacheId){
+		Query query = entityManager.createQuery("FROM Collaborateur C "
+				+ "JOIN C.taches CT "
+				+ "WHERE CT.id = :TacheId");
+		query.setParameter("TacheId", tacheId);
+		return  query.getResultList();
+	}
+
 	
 
+
+	public Set<Collaborateur> findByIdProjet(Long id){
+		Projet projet = projetRepository.findById(id).get();
+		System.out.println(projet.getNom());
+		List<Tache> taches = (List<Tache>) tacheRepository.findAll();
+		Set<Collaborateur> listOfColabs = new HashSet<Collaborateur>();
+		for(int j=0;j<taches.size();j++) {
+			if(taches.get(j).getProjet()==projet) {
+					listOfColabs.addAll(findByIdTache(taches.get(j).getId()));
+				}
+				
+			}
+		return listOfColabs;
+		}
 	
 	
 	@SuppressWarnings("deprecation")
@@ -81,11 +131,11 @@ public class CollaborateurService {
 	public void addCollaborateur(Collaborateur cb) {
 		
 		
-		Set<Tache> taches = new HashSet<Tache>();
+		List<Tache> taches = new ArrayList<Tache>();
 		taches = cb.getTaches();
 		String[] inputs= new String[taches.size()];
 		for(int i=0;i<taches.size();i++) {
-			inputs[i]="";
+			inputs[i]="0";
 		}
 
 		
@@ -111,7 +161,7 @@ public class CollaborateurService {
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
 					ds.setWeekend(true);
 				}			
-				
+				ds.setTotalperday("0");
 				daysheetRepository.save(ds);
 				setOfDays[j-1]=ds;
 				sameCollectionOfInputs = null;
@@ -130,7 +180,7 @@ public class CollaborateurService {
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
 					ds.setWeekend(true);
 				}
-				
+				ds.setTotalperday("0");
 				daysheetRepository.save(ds);
 				setOfDays[j-1]=ds;
 				sameCollectionOfInputs = null;
@@ -149,7 +199,7 @@ public class CollaborateurService {
 					if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
 						ds.setWeekend(true);
 					}
-					
+					ds.setTotalperday("0");
 					daysheetRepository.save(ds);
 					setOfDays[j-1]=ds;
 					sameCollectionOfInputs = null;
@@ -168,7 +218,7 @@ public class CollaborateurService {
 					if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
 						ds.setWeekend(true);
 					}
-					
+					ds.setTotalperday("0");
 					daysheetRepository.save(ds);
 					setOfDays[j-1]=ds;
 					sameCollectionOfInputs = null;
@@ -188,7 +238,7 @@ public class CollaborateurService {
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
 					ds.setWeekend(true);
 				}
-				
+				ds.setTotalperday("0");
 				daysheetRepository.save(ds);
 				setOfDays[j-1]=ds;
 				sameCollectionOfInputs = null;
@@ -209,7 +259,7 @@ public class CollaborateurService {
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
 					ds.setWeekend(true);
 				}
-							
+				ds.setTotalperday("0");	
 				daysheetRepository.save(ds);
 				setOfDays[j-1]=ds;
 				sameCollectionOfInputs = null;
@@ -229,7 +279,7 @@ public class CollaborateurService {
 					ds.setWeekend(true);
 				}
 				
-				
+				ds.setTotalperday("0");
 				daysheetRepository.save(ds);
 				setOfDays[j-1]=ds;
 				sameCollectionOfInputs = null;
@@ -249,7 +299,7 @@ public class CollaborateurService {
 					ds.setWeekend(true);
 				}
 				
-				
+				ds.setTotalperday("0");
 				daysheetRepository.save(ds);
 				setOfDays[j-1]=ds;
 				sameCollectionOfInputs = null;
@@ -268,7 +318,7 @@ public class CollaborateurService {
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
 					ds.setWeekend(true);
 				}
-
+				ds.setTotalperday("0");
 				daysheetRepository.save(ds);
 				setOfDays[j-1]=ds;
 				sameCollectionOfInputs = null;
@@ -287,7 +337,7 @@ public class CollaborateurService {
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
 					ds.setWeekend(true);
 				}
-				
+				ds.setTotalperday("0");
 				daysheetRepository.save(ds);
 				setOfDays[j-1]=ds;
 				sameCollectionOfInputs = null;
@@ -306,7 +356,7 @@ public class CollaborateurService {
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
 					ds.setWeekend(true);
 				}
-				
+				ds.setTotalperday("0");
 				daysheetRepository.save(ds);
 				setOfDays[j-1]=ds;
 				sameCollectionOfInputs = null;
@@ -325,7 +375,7 @@ public class CollaborateurService {
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
 					ds.setWeekend(true);
 				}
-				
+				ds.setTotalperday("0");
 				daysheetRepository.save(ds);
 				setOfDays[j-1]=ds;
 				sameCollectionOfInputs = null;
@@ -346,27 +396,6 @@ public class CollaborateurService {
 	
 	
 	
-	public List<Collaborateur> findAll(){
-		return (List<Collaborateur>) collaborateurRepository.findAll();
-	}
-	
-	public void deleteCollaborateur(Long id) {
-		collaborateurRepository.deleteById(id);
-	}
-	
-	public List<Collaborateur> findByIdEquipe(Long equipeId){
-		Query query = entityManager.createQuery("FROM Collaborateur C WHERE C.equipe.id = :EquipeId");
-    	query.setParameter("EquipeId", equipeId);
-    	return  query.getResultList();
-	}
-	
-	public List<Collaborateur> findByIdTache(Long tacheId){
-		Query query = entityManager.createQuery("FROM Collaborateur C "
-    			+ "JOIN C.taches CT "
-    			+ "WHERE CT.id = :TacheId");
-    	query.setParameter("TacheId", tacheId);
-    	return  query.getResultList();
-	}
 	
 	//////USER SIDE
 	public Monthsheet getMonthsheet(Long id) {
@@ -428,6 +457,20 @@ public class CollaborateurService {
 		}
 		return null;
 		
+	}
+	
+	public void updateCollaborateursEquipe(Long equipe_id,List<Long> collabs_id) {
+		for(Long l: collabs_id) {
+			Collaborateur collab = findById(l);
+			collab.setEquipe(equipeRepository.findById(equipe_id).get());
+			updateCollab(collab);
+		}
+	}
+	
+	public void updateCollaborateurTaches(Long id,List<Tache> taches) {
+		Collaborateur collab = findById(id);
+		collab.setTaches(taches);
+		updateCollab(collab);
 	}
 	
 	

@@ -11,14 +11,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uib.timesheet.model.Equipe;
 import com.uib.timesheet.service.EquipeService;
 
+@CrossOrigin("*")
 @RestController
-@RequestMapping("/admin/equipes")
-@CrossOrigin
+@RequestMapping(value="/admin/equipes"
+,produces = "application/json")
 public class EquipeController {
 
 	@Autowired
@@ -28,7 +30,7 @@ public class EquipeController {
 	public Equipe getById(@PathVariable Long id) {
 		return equipeService.findById(id);
 	}
-	@GetMapping("/all")
+	@GetMapping("")
 	public List<Equipe> getAll(){
 		return equipeService.findAll();
 	}
@@ -40,7 +42,7 @@ public class EquipeController {
 	public void Add(@RequestBody Equipe equipe) {
 		equipeService.addOrUpdate(equipe);
 	}
-	@PutMapping("/{id}")
+	@RequestMapping(value="/{id}",  produces = "application/json",  method= {RequestMethod.PATCH})
 	public void update(@RequestBody Equipe equipe) {
 		equipeService.addOrUpdate(equipe);
 	}

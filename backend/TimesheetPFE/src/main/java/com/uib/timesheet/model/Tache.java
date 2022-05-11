@@ -1,14 +1,17 @@
 package com.uib.timesheet.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 
 @Entity
 @Table(name ="tache")
@@ -18,6 +21,7 @@ public class Tache {
 	private Long id;
 	private String nom;
 	private String description;
+	private float total=0;
 	
 	
 /*
@@ -27,95 +31,76 @@ public class Tache {
 */
 
 	
-	@ManyToOne(cascade=javax.persistence.CascadeType.REMOVE)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="projet_id", nullable=true)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Projet projet;
 
-	
 
-	public Tache() {
-	}
-	
-
-
-
-	public Tache(Long id, String nom, String description,  Projet projet) {
-		super();
-		this.id = id;
-		this.nom = nom;
-		this.description = description;
-	//	this.collaborateurs = collaborateurs;
-		this.projet = projet;
-	}
+public Tache(Long id, String nom, String description, float total, Projet projet) {
+	super();
+	this.id = id;
+	this.nom = nom;
+	this.description = description;
+	this.total = total;
+	this.projet = projet;
+}
 
 
+public Tache() {
+}
 
 
-	public Long getId() {
-		return id;
-	}
+public Long getId() {
+	return id;
+}
 
 
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
+public void setId(Long id) {
+	this.id = id;
+}
 
 
-	public String getNom() {
-		return nom;
-	}
+public String getNom() {
+	return nom;
+}
 
 
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
+public void setNom(String nom) {
+	this.nom = nom;
+}
 
 
-	public String getDescription() {
-		return description;
-	}
+public String getDescription() {
+	return description;
+}
 
 
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
+public void setDescription(String description) {
+	this.description = description;
+}
 
 
-	/*public Set<Collaborateur> getCollaborateurs() {
-		return collaborateurs;
-	}
+public float getTotal() {
+	return total;
+}
 
 
-
-	public void setCollaborateurs(Set<Collaborateur> collaborateurs) {
-		this.collaborateurs = collaborateurs;
-	}*/
-
+public void setTotal(float total) {
+	this.total += total;
+}
 
 
-	public Projet getProjet() {
-		return projet;
-	}
+public Projet getProjet() {
+	return projet;
+}
 
 
-
-	public void setProjet(Projet projet) {
-		this.projet = projet;
-	}
+public void setProjet(Projet projet) {
+	this.projet = projet;
+}
 
 	
-	
-	
 
-	
-	
-	
-	
 	
 }

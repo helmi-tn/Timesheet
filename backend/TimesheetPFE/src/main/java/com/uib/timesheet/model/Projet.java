@@ -1,16 +1,13 @@
 package com.uib.timesheet.model;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -23,30 +20,29 @@ public class Projet {
 	private String nom;
 	private LocalDateTime datededbut;
 	private LocalDateTime datedefin;
+	private String description;
 	
 	private String chef;
 
+	@OneToMany(mappedBy = "projet", orphanRemoval = true)
+	private List<Tache> taches;
 	
 	
 	public Projet() {
 	}
 
 
-	/*@OneToMany(mappedBy="projet")
-	private Set<Tache> taches;
-*/
-	public Projet(Long id, String nom, LocalDateTime datededbut, LocalDateTime datedefin, String chef) {
+
+	public Projet(Long id, String nom, LocalDateTime datededbut, LocalDateTime datedefin, String description,
+			String chef) {
 		super();
 		this.id = id;
 		this.nom = nom;
 		this.datededbut = datededbut;
 		this.datedefin = datedefin;
+		this.description = description;
 		this.chef = chef;
-		//this.taches = taches;
 	}
-
-
-
 
 
 
@@ -98,7 +94,19 @@ public class Projet {
 
 
 
-	public String isChef() {
+	public String getDescription() {
+		return description;
+	}
+
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+
+	public String getChef() {
 		return chef;
 	}
 
@@ -109,27 +117,9 @@ public class Projet {
 	}
 
 
-
-	/*public Set<Tache> getTaches() {
-		return taches;
-	}
-
-
-
-	public void setTaches(Set<Tache> taches) {
-		this.taches = taches;
-	}*/
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
+	/*@OneToMany(mappedBy="projet")
+	private Set<Tache> taches;
+*/
 	
 	
 	

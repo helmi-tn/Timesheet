@@ -19,7 +19,7 @@ public class Daysheet {
 	
 	@ElementCollection
 	@OrderColumn
-	private String[] inputcolab;
+	private String[] inputcollab;
 	private int daynumber;
 	
 	private String totalperday;
@@ -38,7 +38,7 @@ public class Daysheet {
 	public Daysheet(Long id, String[] inputcolab, int daynumber, String totalperday, boolean weekend) {
 		super();
 		this.id = id;
-		this.inputcolab = inputcolab;
+		this.inputcollab = inputcolab;
 		this.daynumber = daynumber;
 		this.totalperday = totalperday;
 		this.weekend = weekend;
@@ -54,11 +54,11 @@ public class Daysheet {
 	}
 
 	public String[] getInputcolab() {
-		return inputcolab;
+		return inputcollab;
 	}
 
 	public void setInputcolab(String[] inputcolab) {
-		this.inputcolab = inputcolab;
+		this.inputcollab = inputcolab;
 	}
 
 	public int getDaynumber() {

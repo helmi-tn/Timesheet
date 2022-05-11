@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.uib.timesheet.model.Monthsheet;
 import com.uib.timesheet.service.MonthsheetService;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/admin/timesheets")
-@CrossOrigin
 public class MonthsheetController {
 
 	@Autowired

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.uib.timesheet.model.Daysheet;
 //import com.uib.timesheet.HibernateUtil;
 import com.uib.timesheet.model.Tache;
 import com.uib.timesheet.repository.TacheRepository;
@@ -30,6 +31,7 @@ public class TacheService {
 	
 	
 	public void addOrUpdateTache(Tache tache) {
+		tache.setTotal(0);
 		tacheRepository.save(tache);
 	}
 	
@@ -62,17 +64,26 @@ public class TacheService {
     
     public List<Tache> findByProjetId(Long projetId){
     	
-    	Query query = entityManager.createQuery("FROM Tache T WHERE T.projet.id = :ProjetId");
+    	Query query = entityManager.createQuery("FROM Tache T "
+    			+ "JOIN T.projet TP "
+    			+ "WHERE TP.id = :ProjetId");
     	query.setParameter("ProjetId", projetId);
     	return  query.getResultList();
     }
     
-  /*  public List<Tache> findByCollaborateurNom(String collaborateurNomId){
-    	Query query = entityManager.createQuery("SELECT C.Tache FROM Collaborateur C "
-    			+ "WHERE C.id.nom = :CollaborateurNomId");
-    	query.setParameter("CollaborateurNomId", collaborateurNomId);
+    public List<Tache> findByCollaborateurId(Long CollabId){
+    	Query query = entityManager.createQuery("SELECT C.taches FROM Collaborateur C "
+    			+ "WHERE C.id = :Id");
+    	query.setParameter("Id", CollabId);
     	return  query.getResultList();
-    }*/
+    }
+    
+    public void updatetTotal(Long id_tache,String total) {
+    	Tache tache = getById(id_tache);
+		tache.setTotal(Float.parseFloat(total));
+		
+		tacheRepository.save(tache);
+    }
     
 }
 

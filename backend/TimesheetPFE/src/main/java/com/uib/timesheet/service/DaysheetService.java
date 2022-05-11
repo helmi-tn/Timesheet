@@ -36,7 +36,15 @@ public class DaysheetService {
 		Daysheet day = findById(id_day);
 		String[] inputs =day.getInputcolab();
 		inputs[order]= input;
+		
+		double total= 0;
+		for(int i=0; i<inputs.length;i++) {
+			double inputvalue = Double.parseDouble(inputs[i]);
+			total +=inputvalue;
+		}
+		day.setTotalperday(String.valueOf(total));
 		day.setInputcolab(inputs);
+		
 		daysheetRepository.save(day);
 	}
 }
