@@ -20,9 +20,10 @@ import { login } from '../actions/auth'
 import { useDispatch } from 'react-redux';
 
 
-const initiaState = { email :'' , password: ''};
+const initialState = { email :'' , motdepasse: ''};
 
 const Login = () =>  {
+  document.title="Se connecter";
   document.body.style.overflow= 'hidden';
   const [values, setValues] = React.useState({
     showPassword: false,
@@ -30,7 +31,7 @@ const Login = () =>  {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [formData,setFormData] = useState(initiaState);
+  const [formData,setFormData] = useState(initialState);
 
   
   const handleClickShowPassword = () => {
@@ -55,7 +56,7 @@ const Login = () =>  {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container fixed style={{maxWidth:"100%", height:"79vh", margin:'0', padding:'0',
+      <Container fixed style={{maxWidth:"100%", height:"81vh", margin:'0', padding:'0',
       backgroundImage: `url(https://i.imgur.com/E4j2EG2.jpg)`, backgroundRepeat:'no-repeat',backgroundSize: 'cover'
       ,backgroundPosition: 'center center', backgroundAttachment: 'fixed'}}>
         
@@ -74,7 +75,6 @@ const Login = () =>  {
          <TextField sx={{bgcolor:'#E8E8E8','&.Mui-focused fieldset':{borderColor:'black'} }}
           required
           name="email"
-          id="outlined-email"
           label="E-mail"
           size="small"
           type="email"
@@ -84,10 +84,9 @@ const Login = () =>  {
           <InputLabel htmlFor="outlined-adornment-password">Mot de passe</InputLabel>
           <OutlinedInput
             required
-            name="password"
-            id="password"
+            name="motdepasse"
             type={values.showPassword ? 'text' : 'password'}
-            defaultValue={values.password}
+            defaultValue={values.motdepasse}
             onChange={handleChange}
            
             endAdornment={

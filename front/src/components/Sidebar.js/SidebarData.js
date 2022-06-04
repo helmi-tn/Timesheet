@@ -52,7 +52,7 @@ export const SidebarData = [
     ]
   },
   {
-    title: 'Comptes',
+    title: 'Collaborateurs',
     icon: <MdIcons.MdOutlineAccountCircle />,
 
     iconClosed: <RiIcons.RiArrowDownSFill />,

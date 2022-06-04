@@ -31,9 +31,9 @@ color:red;
 }
 `;
 const SidebarNav = styled.nav`
-background : black;
+background : white;
 width: 250px;
-height: 100vh;
+height: 98vh;
 display:flex;
 justify-content:center;
 position:fixed;
@@ -60,7 +60,7 @@ function Sidebar() {
         
         <SidebarNav sidebar={sidebar}>
             <SidebarWrap>
-            <p style={{color:'white',marginLeft:'1.1rem', fontSize:'1.4rem'}}><b>ADMIN DASHBOARD</b></p>
+            <p style={{color:'black',marginLeft:'1.1rem', fontSize:'1.4rem'}}><b>ADMIN DASHBOARD</b></p>
             {SidebarData.map((item,index) => {
                 return <SubMenu item={item} key={index} />
             })}

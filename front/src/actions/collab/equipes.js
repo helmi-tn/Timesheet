@@ -38,3 +38,14 @@ export const updateEquipe = (id, equipe) => async (dispatch) => {
       console.log(error);
     }
   };
+
+  export const addEquipe = (equipe) => async (dispatch) => {
+    try {
+      const { data } = await api.addEquipe(equipe)
+  
+      dispatch({ type: 'ADD_EQUIPE', payload: data });
+    } catch (error) {
+      console.log(error)
+    }
+  };
+

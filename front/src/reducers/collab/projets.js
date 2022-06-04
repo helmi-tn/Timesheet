@@ -6,6 +6,10 @@ export default (projets = [], action) => {
             return projets.map((projet) => projet._id == action.payload._id ? action.payload : projet);
         case 'DELETE_PROJET':
             return projets.filter((projet) => projet._id !== action.payload); 
+        case 'FETCH_PROJETS_OF_COLLAB':
+            return action.payload;
+        case 'ADD_PROJET':
+            return [...projets, action.payload];
             default : 
         return projets;
     }

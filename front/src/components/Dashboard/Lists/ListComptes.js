@@ -9,6 +9,10 @@ import { deleteCompte, getAllComptes,updateCompte } from '../../../actions/admin
 import { getCompte } from '../../../actions/admin/comptes';
 import { Table,Modal,Form } from 'react-bootstrap';
 import { getTachesByCollab,getAllTaches } from '../../../actions/collab/taches';
+import { getProjet, getProjetsByCollab, getTachesOfProjet } from '../../../actions/collab/projets';
+import * as AiIcons from 'react-icons/ai';
+import * as MdIcons from 'react-icons/md';
+import { getAllEquipes } from '../../../actions/collab/equipes';
 
 
 
@@ -18,13 +22,17 @@ import { getTachesByCollab,getAllTaches } from '../../../actions/collab/taches';
 function ListComptes() {
   let timeout;
 
-  const [tache,setTaches] = useState([]);
+  let [tache,setTache] = useState([]);
 
-  const [postData,setPostData] = useState({
-    id:'',nom:'',prenom:'',email:'',matricule:'',chef:'',equipe:'',taches:'',motdepasse:'',monthseets:''
+  let [postData,setPostData] = useState({
+    id:'',nom:'',prenom:'',email:'',matricule:'',chef:'',equipe:{},taches:[],motdepasse:'',monthsheets:''
   })
   const [showAfficher, setShowAfficher] = useState(false);
   const [showDelete,setShowDelete] = useState(false);
+  const [showAfficherTache,setShowAfficherTache] = useState(false);
+
+  const handleCloseAfficherTache = () => setShowAfficherTache(false);
+
 
   const [showModifier, setShowModifier] = useState(false);
   const handleCloseModifier = () => setShowModifier(false);
@@ -32,20 +40,32 @@ function ListComptes() {
   const handleCloseAfficher = () => setShowAfficher(false);
   const handleCloseDelete = () => setShowDelete(false);
 
+  const handleShowAfficherTache = ((id) => {
+    //dispatch(getTachesOfProjet(id));
+    dispatch(getProjet(id));
+  
+    timeout = setTimeout(() => {
+      setShowAfficherTache(true);
+    }, 1000);
+  })
   
   const handleChangeSelect = ((e) => {
-    let value = Array.from(e.target.selectedOptions,(tache) => tache.value)
-    setTaches(value);
-    console.log(taches);
+    let value = Array.from(e.target.selectedOptions,(tache) =>  JSON.parse(tache.value))
+    tache=value;
+    postData.taches=tache;
   })
+  
 
   const handleShowModifier = ((id) => {
-    dispatch(getCompte(id));
-    dispatch(getTachesByCollab(id))
     dispatch(getAllTaches());
+    
+    dispatch(getCompte(id));
+    dispatch(getTachesByCollab(id));
+    dispatch(getProjetsByCollab(id));
+    dispatch(getAllEquipes());
     timeout = setTimeout(() => {
+      
       setShowModifier(true);
-      console.log(compte)
 //postData.nom=compte.nom;
       //postData.prenom=compte.prenom;
     }, 1000);
@@ -59,44 +79,43 @@ function ListComptes() {
   })
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getAllComptes());
-  }, [dispatch])
-
+  
   const handleSubmit = (e) =>{  
-    postData.id=compte.id;
-    postData.motdepasse=compte.motdepasse;
-    postData.taches=compte.taches;
-    postData.equipe=compte.equipe;
-    postData.monthseets=compte.monthseets;
-    console.log(postData);
     dispatch(updateCompte(compte.id,postData));
   }
   
   
   const handleShowAfficher = ((id) => {
     dispatch(getCompte(id));
-    dispatch(getTachesByCollab(id))
+    dispatch(getTachesByCollab(id));
+    dispatch(getProjetsByCollab(id));
     timeout = setTimeout(() => {
       setShowAfficher(true);
     }, 1000);
-
+    
   });
   const compte = useSelector((state) => state.compte)
   const comptes = useSelector((state) => state.comptes);
   const tachesByCollab = useSelector((state) => state.tachesByCollab); 
   const taches = useSelector((state) => state.taches);
- // console.log('all taches = ! ', taches);
- // console.log('taches by collab = !', tachesByCollab)
-  //console.log(comptes);
-  console.log(compte);
+  const projets = useSelector((state) => state.projets);
+  const projet = useSelector((state) => state.projet);
+  const equipes = useSelector((state) => state.equipes);
+  const state = useSelector((state) => state)
+  
+  
+  useEffect(() => {
+    dispatch(getAllComptes());
+    if(compte)
+      setPostData(compte);
+  }, [dispatch,compte])
 
   
   return (
     <React.Fragment>
     
     <CssBaseline />
-    <Container fixed style={{maxWidth:"100%", height:"auto",minHeight:'79vh', margin:'0', padding:'0',
+    <Container fixed style={{maxWidth:"100%", height:"auto",minHeight:'81vh', margin:'0', padding:'0',
     backgroundImage: `url(https://i.imgur.com/6norrZF.jpg)`, backgroundRepeat:'repeat',backgroundSize: 'cover'
     ,backgroundPosition: 'center center', backgroundAttachment: 'fixed'}}>
     <Sidebar/>
@@ -104,7 +123,7 @@ function ListComptes() {
     <Container  sx={{
          zIndex:1, bgcolor: 'white',ml:36,pt:2 ,borderRadius: '5px', boxShadow: 10, minHeight:"520px", width:'100%'
       }}>
-    <div style={{fontSize:'20px'}}><b>Les comptes disponibles.</b></div>
+    <div style={{fontSize:'20px'}}><b>Les collaborateurs disponibles.</b></div>
     <hr/>
     <Table striped bordered hover>
   <thead className="thead-dark" style={{borderBottom:'5px solid black'}}>
@@ -114,7 +133,7 @@ function ListComptes() {
       <th><b>Prenom</b></th>
       <th><b>E-mail</b></th>
       <th><b>Matricule</b></th>
-
+      <th><b>Equipe</b></th>
       <th><b>Actions</b></th>
     </tr>
   </thead>
@@ -127,6 +146,8 @@ function ListComptes() {
   <td>{compte.prenom}</td>
   <td>{compte.email}</td>
   <td>{compte.matricule}</td>
+  <td></td>
+  
 
 
   <td style={{width:'364px'}}>
@@ -161,8 +182,8 @@ function ListComptes() {
           </div>
           <div className="form-group row">
            <label className="col-form-label col-lg-4">Chef de projet :</label>
-            <div className="col-lg-4">
-            <input className="form-control" type="text" defaultValue={compte.chef} readOnly="readonly" />
+            <div className="col-lg-2">
+            <input className="form-control" type="text" defaultValue={compte.chef==true? ('Oui') : ('Non')} readOnly="readonly" />
             </div>
           </div>
           <div className="form-group row">
@@ -177,29 +198,53 @@ function ListComptes() {
             <div className="col-lg-4">
             <input className="form-control" type="text" defaultValue={compte.matricule} readOnly="readonly" /></div>
           </div>
-        
           <div className="form-group row">
-           <label className="col-form-label col-lg-4">Tâches :</label>
+           <label className="col-form-label col-lg-4">Equipe :</label>
             <div className="col-lg-4">
-            <select multiple className="form-control" readOnly="readonly" id="exampleFormControlSelect2">
-            
-            {tachesByCollab.map((tacheOfCollab) => (
+            <input className="form-control" type="text" defaultValue={compte.id} readOnly="readonly" /></div>
+          </div>
+        
+               
+             <div className="form-group row">
+           <label className="col-form-label col-lg-4">Projets :</label>
+            <div className="col-lg-4" style={{backgroundColor:'#e9ecef',borderRadius:'2%',border:'1px solid #d6dbdf',marginLeft:'13px'}}>
+         
+            {projets.map((projet) => (
               <>
-              <option>{tacheOfCollab.nom}
-              </option>
+             {projet.nom} <a onClick={(e) =>handleShowAfficherTache(projet.id)}><AiIcons.AiFillEye/></a> <br/>
               </>
             ))}
-            </select>
+ 
               </div>
-             </div>       
-
-            
+             </div>      
         </Modal.Body>
         <Modal.Footer>
           <Button variant="dark" onClick={handleCloseAfficher}>
             Fermer
           </Button>
         </Modal.Footer>
+
+        <Modal centered dialogClassName="modal-60w" show={showAfficherTache} onHide={handleCloseAfficherTache}>
+        <Modal.Header closeButton style={{backgroundColor:'gray'}}>
+          <Modal.Title style={{color:'white'}}>Tâches du projet : {projet.nom}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <center>
+          {tachesByCollab.map((tache) => (
+              tache.projet.id==projet.id ? (<>{tache.nom} <br/></>) : null
+          ))}
+          </center>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="dark" size="sm" onClick={handleCloseAfficherTache}>
+           <MdIcons.MdOutlineKeyboardReturn style={{fontSize:'1.5rem'}} />
+          </Button>
+        </Modal.Footer>
+      </Modal> 
+
+
+
+
 
       </Modal>
       <Modal show={showDelete} onHide={handleCloseDelete}>
@@ -228,7 +273,7 @@ function ListComptes() {
           <div className="form-group row">
            <label className="col-form-label col-lg-4">Nom :</label>
             <div className="col-lg-3">
-            <input className="form-control" type="text" defaultValue={compte.nom} onLoad={() => setPostData({...postData, nom: compte.nom})} onChange={(e) =>setPostData({...postData, nom: e.target.value})} />
+            <input className="form-control" type="text" defaultValue={compte.nom} onLoad={() => postData.nom=compte.nom} onChange={(e) =>setPostData({...postData, nom: e.target.value})} />
            
             </div>
           </div>
@@ -237,13 +282,6 @@ function ListComptes() {
             <div className="col-lg-3">
             <input required className="form-control" type="text" defaultValue={compte.prenom} onLoad={(e) =>setPostData({...postData, nom: e.target.value})} onChange={(e) =>setPostData({...postData, prenom: e.target.value})}/>
             
-            </div>
-          </div>
-
-          <div className="form-group row">
-           <label className="col-form-label col-lg-4">Chef de projet :</label>
-            <div className="col-lg-4">
-            <Form.Check type="checkbox" defaultChecked={compte.chef}  label={'Cliquez pour confimer'}  onChange={(e) =>setPostData({...postData, chef: e.target.checked})}/>
             </div>
           </div>
 
@@ -260,11 +298,22 @@ function ListComptes() {
             </div>
           </div>
           <div className="form-group row">
+           <label className="col-form-label col-lg-4">Equipe :</label>
+            <div className="col-lg-5">
+            <Form.Select  defaultValue={compte.equipe} onChange={(e) =>setPostData({...postData, equipe: JSON.parse(e.target.value)})}>
+
+            {equipes.map((equipe) =>
+                <option value={JSON.stringify(equipe)} selected>{equipe.nom}</option>
+              )}
+              </Form.Select>
+              </div>
+            </div>
+          <div className="form-group row">
            <label className="col-form-label col-lg-4">Tâches :</label>
             <div className="col-lg-5">
-            <select multiple className="form-control" id="exampleFormControlSelect2" value={taches} onChange={handleChangeSelect}>
+            <select multiple className="form-control" onChange={handleChangeSelect} defaultValue = { tachesByCollab}>
             {taches.map((tache) =>
-                tachesByCollab.indexOf(tache)!=-1 ? (<option value={tache} selected>{tache.nom}</option>) : (<option calue={tache}>{tache.nom}</option>)
+               (<option value={JSON.stringify(tache)}>{tache.nom}</option>)
               )}
             </select>
               </div>

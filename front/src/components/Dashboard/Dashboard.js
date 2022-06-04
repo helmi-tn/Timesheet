@@ -13,8 +13,6 @@ import { Chart }            from 'react-chartjs-2'
 import totalsProjets from '../../reducers/admin/totalsProjets';
 
 
-
-
 function Dashboard() {
   const dispatch = useDispatch();
   const projets = useSelector((state) => state.projets);
@@ -24,19 +22,41 @@ function Dashboard() {
     NameProjets.push(projet.nom)
     ));
 
+  console.log(totalsProjets);
+
 
 //dispatch(getTotalProjet(700));
 const stateProjets = {
         labels:NameProjets,
+
         datasets:[{
-          label: 'Total',
+          label: 'Projet 1',
           backgroundColor:'red',
           borderColor:'black',
           borderWidth: 2,
           data: totalsProjets
-        }
+        },
       ]
     }
+
+  const stateProjetsTache = {
+      labels:NameProjets,
+      datasets:[{
+        label: 'Tache 2',
+        backgroundColor:['red','blue'],
+        borderColor:'black',
+        borderWidth: 2,
+        data: [1,3,5]
+      },
+      {
+        label: 'Tache 3',
+        backgroundColor:'green',
+        borderColor:'black',
+        borderWidth: 2,
+        data: [2,5,3]
+      }
+    ]
+  }
     const stateProjets2 = {
       labels: NameProjets,
       datasets: [
@@ -61,7 +81,7 @@ const stateProjets = {
       ]
     }
     
-    
+ 
     
     useEffect(() => {
       dispatch(getAllProjets());
@@ -72,7 +92,7 @@ const stateProjets = {
     <React.Fragment>
     
     <CssBaseline />
-    <Container fixed style={{maxWidth:"100%", height:"auto",minHeight:'79vh', margin:'0', padding:'0',paddingTop:'1rem',
+    <Container fixed style={{maxWidth:"100%", height:"auto",minHeight:'81vh', margin:'0', padding:'0',paddingTop:'1rem',
     backgroundImage: `url(https://i.imgur.com/6norrZF.jpg)`, backgroundRepeat:'repeat',backgroundSize: 'cover'
     ,backgroundPosition: 'center center', backgroundAttachment: 'fixed'}}>
     <Sidebar/>
@@ -83,13 +103,14 @@ const stateProjets = {
          zIndex:1, bgcolor: 'white',ml:20 ,borderRadius: '5px', boxShadow: 10, height:"auto", opacity : '0.94', width:'500px'
       }}>
        <Bar
-          data={stateProjets}
+          data={stateProjetsTache}
           options={{
+            maintainAspectRatio:false,
             plugins:{
             title:{
               fullSize:true,
               display:true,
-              text:"Total par projet",
+              text:"Total par tâche de projet",
                 font:{
                   size:20,
                   color:'black'
@@ -111,10 +132,10 @@ const stateProjets = {
           }}
         />
       </Box>
-      <Box  sx={{
+      { /* <Box  sx={{
          zIndex:1, bgcolor: 'white' ,borderRadius: '5px', boxShadow: 10, height:"250px", opacity : '0.94', width:'250px'
       }}>
-      <Pie
+     <Pie
           data={stateProjets2}
           options={{
             plugins:{
@@ -142,7 +163,7 @@ const stateProjets = {
           }
           }}
         />
-        </Box>
+        </Box> */}
       
         <Box  sx={{
          zIndex:1,mt:3, bgcolor: 'white',ml:20 ,borderRadius: '5px', boxShadow: 10, height:"auto", opacity : '0.94', width:'250px'
@@ -182,8 +203,9 @@ data={stateProjets2}
         <Box  sx={{
          zIndex:1,mt:3, bgcolor: 'white',ml:20 ,borderRadius: '5px', boxShadow: 10, height:"auto", opacity : '0.94', width:'500px'
       }}>
+{/* 
           <Line 
-data={stateProjets}
+          
           options={{
             plugins:{
             title:{
@@ -211,7 +233,7 @@ data={stateProjets}
           }}
 
           />
-
+*/}
         </Box>
 
 

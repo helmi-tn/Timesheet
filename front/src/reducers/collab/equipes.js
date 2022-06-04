@@ -6,6 +6,8 @@ export default (equipes = [], action) => {
             return equipes.filter((equipe) => equipe._id !== action.payload); 
         case 'UPDATE_EQUIPE':
             return equipes.map((equipe) => equipe._id == action.payload._id ? action.payload : equipe );
+        case 'ADD_EQUIPE':
+            return [...equipes, action.payload];
         default : 
         return equipes;
     }

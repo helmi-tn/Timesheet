@@ -12,7 +12,8 @@ import colabsByEquipe from './admin/colabsByEquipe';
 import equipe from './collab/equipe';
 import compte from './admin/compte';
 import tachesByCollab from './admin/tachesByCollab';
+import auth from './auth';
 
 export default combineReducers({
-    monthsheet,daysheets,comptes,projets,equipes,taches,totalsProjets,tachesOfProjet,projet,colabsByEquipe,equipe,compte,tachesByCollab
+    monthsheet,daysheets,comptes,projets,equipes,taches,totalsProjets,tachesOfProjet,projet,colabsByEquipe,equipe,compte,tachesByCollab,auth
 })

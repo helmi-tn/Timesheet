@@ -6,11 +6,14 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Sidebar from '../../Sidebar.js/Sidebar';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
-import { updateCollaborateursEquipe } from '../../../api';
-
+import { addEquipe } from '../../../actions/collab/equipes';
+import { useNavigate } from 'react-router-dom';
+import { updateCollabsEquipe } from '../../../actions/admin/comptes';
 
 function AddEquipe() {
+  let timeout;
   const [options,setOptions] = useState([]);
+  const navigate = useNavigate();
 
   const handleChangeSelect = ((e) => {
     let value = Array.from(e.target.selectedOptions,(option) => option.value)
@@ -18,9 +21,13 @@ function AddEquipe() {
     console.log("options = " ,options);
   })
   const handleSubmit = (e) =>{ 
-   // setPostDataEquipe({id:0,nom:equipe.nom})
-    //dispatch(updateEquipe(equipe.id,postDataEquipe));
-    //dispatch(updateCollaborateursEquipe(equipe.id,options));
+    e.preventDefault();
+    dispatch(addEquipe(postDataEquipe));
+    //dispatch(updateCollabsEquipe(equipe.id,options));
+
+    timeout = setTimeout(() => {
+      navigate('/admin/dashboard/equipes');
+    }, 1000);
   }
   
 
@@ -30,7 +37,7 @@ function AddEquipe() {
   }, [dispatch])
 
   const [postDataEquipe,setPostDataEquipe] = useState({
-    id:"",nom:""
+    id:'',nom:'',responsable:''
 })
   const collaborateurs = useSelector((state) => state.comptes);
   return (
@@ -47,21 +54,27 @@ function AddEquipe() {
       }}>
     <div style={{fontSize:'20px',textAlign:'center'}}><b>Ajouter une nouvelle équipe</b></div>
       <hr/>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Nom</Form.Label>
-            <Form.Control required type="text" placeholder="Nom d'équipe..." />
+            <Form.Control required type="text" placeholder="Nom d'équipe..." onChange={(e) =>setPostDataEquipe({...postDataEquipe, nom: e.target.value})} />
           </Form.Group>
-         
+          <Form.Label>Responsable</Form.Label>
+          <Form.Select onChange={(e) =>setPostDataEquipe({...postDataEquipe, responsable: e.target.value})} aria-label="Default select example">
+          {collaborateurs.map((collab) => (
+              <option value={`${collab.nom} ${collab.prenom}`} >{collab.nom} {collab.prenom}</option> 
+            ))}
+          </Form.Select>
+          <br/>
           <Form.Label>Collaborateurs</Form.Label>
-          <Form.Select multiple="multiple" value={options} onChange={handleChangeSelect} aria-label="Default select example">
+          <Form.Select multiple="multiple" onChange={handleChangeSelect} aria-label="Default select example">
           {collaborateurs.map((collab) => (
               <option value={collab.id} >{collab.nom} {collab.prenom}</option> 
             ))}
           </Form.Select>
-          <br/><br/><br/><br/><br/><br/>
+          <br/><br/><br/>
           <center>
-          <Button variant="danger" size="m" type="submit">
+          <Button variant="danger" size="m" type="submit" >
             Confirmer
           </Button>
           </center>

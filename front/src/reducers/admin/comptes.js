@@ -8,6 +8,8 @@ export default (comptes = [], action) => {
             return action.payload;
         case 'UPDATE_COLLAB':
             return comptes.map((compte) => compte._id == action.payload._id ? action.payload : compte );
+        case 'ADD_COMPTE':
+            return [...comptes, action.payload];
         default : 
         return comptes;
     }

@@ -9,3 +9,25 @@ export const getMonthsheet = (id) => async (dispatch) => {
     }
 
 }
+
+export const updateConfirmerMonthsheet = (id) => async (dispatch) => {
+    try {
+        const { data } = await api.confirmerMonthsheet(id);
+
+        dispatch ({ type : 'CONFIRMER_MONTHSHEET', payload: data})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updateTotalMonthsheet = (id) => async (dispatch) => {
+    try {
+        const { data } = await api.updateTotalMonthsheet(id);
+
+        dispatch ({ type : 'UPDATE_TOTAL_MONTHSHEET', payload: data})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+

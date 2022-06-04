@@ -24,10 +24,10 @@ const Footer = () => {
 
 
     
-    <MDBFooter color="black" className="font-small pt mt">
-      <MDBContainer fluid className="text-center text-md-left">
+    <MDBFooter color="black" className="font-small pt mt" style={{zIndex:7,position:'relative'}}>
+      <MDBContainer fluid className="text-center text-md-left" style={{zIndex:7}}>
       <MDBRow>
-        <MDBCol className="text-center" style={{marginBottom:'-0.9rem'}}><img  style={{height: "2rem",border: "1px solid #ddd",margin :"0.5rem"}} className="mx-auto d-block" src="https://c0.lestechnophiles.com/play-lh.googleusercontent.com/xnnGMUykmb2lcWFEVpbXZSPsitb0owwbLG2qEiJzfYKdicWaOJt-5fE_tFLycOligw0"  />
+        <MDBCol className="text-center" style={{marginBottom:'-0.9rem',zIndex:7}}><img  style={{height: "2rem",border: "1px solid #ddd",margin :"0.5rem"}} className="mx-auto d-block" src="https://c0.lestechnophiles.com/play-lh.googleusercontent.com/xnnGMUykmb2lcWFEVpbXZSPsitb0owwbLG2qEiJzfYKdicWaOJt-5fE_tFLycOligw0"  />
         <div style={{fontFamily:"media gothic", fontSize: '13px'}}>GROUPE SOCIETE GENERALE <br/></div>
         <div>Copyright @2022 <a href="https://www.uib-net.com" target="_blank"> UIB </a></div></MDBCol>
       </MDBRow>

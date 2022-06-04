@@ -47,12 +47,21 @@ export const updateCompte = (id, compte) => async(dispatch) => {
         console.log(error.message);
     }
 }
-export const updateCollabsEquipe = (id) => async(dispatch) => {
+export const updateCollabsEquipe = (id,collabs_id) => async(dispatch) => {
     try {
-        const { data } = await api.updateCollaborateursEquipe(id);
+        const { data } = await api.updateCollaborateursEquipe(id,collabs_id);
 
         dispatch ({ type : 'UPDATE_COLLABS_EQUIPE', payload: data})
     } catch (error) {
         console.log(error.message);
     }
 }
+export const addCompte = (compte) => async (dispatch) => {
+    try {
+      const { data } = await api.addCompte(compte);
+  
+      dispatch({ type: 'ADD_COMPTE', payload: data });
+    } catch (error) {
+      console.log(error)
+    }
+  };

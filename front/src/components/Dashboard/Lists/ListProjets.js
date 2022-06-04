@@ -10,6 +10,7 @@ import { Table,Modal,Form } from 'react-bootstrap';
 import taches from '../../../reducers/collab/taches';
 import { getAllTaches } from '../../../actions/collab/taches';
 import Moment from 'react-moment';
+import { getAllComptes } from '../../../actions/admin/comptes';
 
 
 
@@ -54,8 +55,10 @@ function ListProjets() {
 
   useEffect(() => {
     dispatch(getAllProjets());
+    dispatch(getAllComptes());
     //dispatch(getTachesOfProjet(700));
   }, [dispatch])
+  const collaborateurs = useSelector((state) => state.comptes);
 
   const projets = useSelector((state) => state.projets);
   const projet = useSelector((state) => state.projet);
@@ -73,13 +76,13 @@ function ListProjets() {
     <React.Fragment>
     
     <CssBaseline />
-    <Container fixed style={{maxWidth:"100%", height:"auto",minHeight:'79vh', margin:'0', padding:'0',
+    <Container fixed style={{maxWidth:"100%", height:"auto",minHeight:'81vh', margin:'0', padding:'0',
     backgroundImage: `url(https://i.imgur.com/6norrZF.jpg)`, backgroundRepeat:'repeat',backgroundSize: 'cover'
     ,backgroundPosition: 'center center', backgroundAttachment: 'fixed'}}>
     <Sidebar/>
     <br/>
     <Container  sx={{
-         zIndex:1, bgcolor: 'white',ml:36,pt:2 ,borderRadius: '5px', boxShadow: 10, minHeight:"520px", width:'100%'
+         zIndex:1, bgcolor: 'white',ml:36,pt:2 ,borderRadius: '5px', boxShadow: 10, minHeight:"520px", width:'100%',height:'auto'
       }}>
     <div style={{fontSize:'20px'}}><b>Les projets disponibles.</b></div>
     <hr/>
@@ -206,9 +209,12 @@ function ListProjets() {
           </div>
           <div className="form-group row">
            <label className="col-form-label col-lg-4">Chef :</label>
-            <div className="col-lg-5">
-            <input class="form-control" type="text" defaultValue={projet.chef} />
-            
+            <div className="col-lg-3">
+            <Form.Select>
+              {collaborateurs.map((collab) =>
+                 (<option value={`${collab.nom} ${collab.prenom}`}>{collab.nom} {collab.prenom}</option>)
+              )}
+            </Form.Select>
             </div>
           </div>
           <div className="form-group row">

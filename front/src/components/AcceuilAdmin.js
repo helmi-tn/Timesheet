@@ -21,8 +21,8 @@ export default function AcceuilAdmin() {
   return (
     <React.Fragment>
         <CssBaseline />
-        <Container fixed style={{maxWidth:"100%", height:"auto",minHeight:'79vh', margin:'0', padding:'0',
-        backgroundImage: `url(https://i.imgur.com/6norrZF.jpg)`, backgroundRepeat:'repeat',backgroundSize: 'cover'
+        <Container fixed style={{maxWidth:"100%", height:"auto",minHeight:'81vh', margin:'0', padding:'0',
+        backgroundImage: `url(https://i.imgur.com/E4j2EG2.jpg)`, backgroundRepeat:'repeat',backgroundSize: 'cover'
         ,backgroundPosition: 'center center', backgroundAttachment: 'fixed'}}>
         <Box sx={{ flexGrow: 2 }}>
               <AppBar position="static" sx={{p:1.5, bgcolor:'black'}}>

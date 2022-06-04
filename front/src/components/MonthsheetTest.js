@@ -22,26 +22,52 @@ import { getMonthsheet } from '../actions/collab/monthsheet';
 import { updateDaysheet } from '../actions/collab/daysheet';
 import { getTachesByCollab } from '../actions/collab/taches';
 import { updateTotalTache } from '../actions/collab/taches';
+import { updateConfirmerMonthsheet } from '../actions/collab/monthsheet';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import IconButton from '@mui/material/IconButton'
+import { getProjetsByCollab } from '../actions/collab/projets';
+import { useNavigate } from 'react-router-dom';
+import * as MdIcons from 'react-icons/md';
+import * as AiIcons from 'react-icons/ai';
+import Alert from '@mui/material/Alert';
 
 
-function MonthsheetTest() {
 
+
+export default function MonthsheetTest() {
+  let timeout;
   const dispatch = useDispatch();
+  const [confirmer,setConfirmer] = useState(false);
+  const [warningInput,setWarningInput] = useState(false);
+  const [warningInputJour,setWarningInputJour] = useState(false);
+
+
   const monthsheetFromDB = useSelector((state) => state.monthsheet);
-  const tachesFromDB = useSelector((state) => state.taches);  
+  const tachesFromDB = useSelector((state) => state.tachesByCollab);  
+  console.log('taches =',tachesFromDB)
+  const projetsFromDB = useSelector((state) => state.projets);
+  const navigate = useNavigate();
   console.log(monthsheetFromDB);
   console.log(tachesFromDB);
+  console.log('Projets de collab = ' ,projetsFromDB);
+  
+  
   
   const inputcell = {
     width:"30px",padding: "3px 0px",margin:"-20rem",textAlign:'center',border:"1",fontSize:'12px'
   };
+  const inputcellConfirmed = {
+    width:"30px",padding: "3px 0px",margin:"-20rem",textAlign:'center',border:"1",fontSize:'12px',
+    backgroundColor:'gray'
+  }
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
       color: theme.palette.common.white, fontSize:9
     },
     [`&.${tableCellClasses.body}`]: {
-      border:'1px solid black'
+      border:'0.5px solid black', fontSize:12
     },
   }));
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -55,80 +81,7 @@ function MonthsheetTest() {
   }));
   
   
-  function createData(name, taches = []) {
-    return { name, taches };
-  }
-  
-  const rows = [
-    createData('Projet 1',["tache n1","tache n2","tache n3"]),
-    createData('Projet 2',["tache n1","tache n2","tache n3"]),
-    createData('Projet 3',["tache n1","tache n2","tache n3"]),
-    createData('Projet 4',["tache n1","tache n2","tache n3"]),
-    createData('Projet 5',["tache n1","tache n2","tache n3"]),
-    createData('Projet 6',["tache n1","tache n2","tache n3"]),
-  ];
-  
-  
-  const monthsheet ={name :"Mai",
-  daysheets :[ { daynumber :"1",weekend: false,inputs : ["0.2","0.3","0.4"]},
-  { daynumber :"2",weekend: true,inputs : []},
-  { daynumber :"3",weekend: true,inputs : []},
-  { daynumber :"4",weekend: false,inputs : ["0.8","0.9","0.1"]},
-  { daynumber :"5",weekend: false,inputs : ["0.11","0.12","0.13"]},
-  { daynumber :"6",weekend: false,inputs : ["0.13","0.14","0.5"]},
-  { daynumber :"7",weekend: false,inputs : ["0.15","0.16","0.17"]},
-  { daynumber :"8",weekend: false,inputs : ["0.17","0.18","0.19"]},
-  { daynumber :"9",weekend: false,inputs : ["0.19","0.21","0.22"]},
-  { daynumber :"10",weekend: true,inputs : []},
-  { daynumber :"11",weekend: true,inputs : []},
-  { daynumber :"12",weekend: false,inputs : ["0.26","0.27","0.28"]},
-  { daynumber :"13",weekend: false,inputs : ["0.28","0.29","0.56"]},
-  { daynumber :"14",weekend: false,inputs : ["0.30","0.31","0.18"]},
-  { daynumber :"15",weekend: false,inputs : ["0.32","0.33","0.3"]},
-  { daynumber :"16",weekend: false,inputs : ["0.34","0.35","0.6"]},
-  { daynumber :"17",weekend: false,inputs : ["0.36","0.37","0.8"]},
-  { daynumber :"18",weekend: true,inputs : []},
-  { daynumber :"19",weekend: true,inputs : []},
-  { daynumber :"20",weekend: false,inputs : ["0.2","0.3","0.8"]},
-  { daynumber :"21",weekend: false,inputs : ["0.2","0.3","0.5"]},
-  { daynumber :"22",weekend: false,inputs : ["0.2","0.3","0.4"]},
-  { daynumber :"23",weekend: false,inputs : ["0.2","0.3","0.3"]},
-{ daynumber :"24",weekend: false,inputs : ["0.2","0.3","0.8"]},
-{ daynumber :"25",weekend: false,inputs : ["0.2","0.3","0.7"]},
-{ daynumber :"26",weekend: true,inputs : []},
-{ daynumber :"27",weekend: true,inputs : []},
-{ daynumber :"28",weekend: false,inputs : ["0.2","0.3","0.5"]},
-{ daynumber :"29",weekend: false,inputs : ["0.2","0.3","0.4"]},
-{ daynumber :"30",weekend: false,inputs : ["0.9","0.9","0.9"]} ]
-};
-
-const taches = [
-  {
-    nom: "tache n1",
-    projet: {
-      nom: "projet n1",
-      datededbut: "2022-04-04T17:57:45",
-      datedefin: "2022-04-04T17:57:45"
-    }
-  },
-  {
-    nom: "tache n2",
-    projet: {
-      nom: "projet n2",
-      datededbut: "2022-04-04T17:58:15",
-      datedefin: "2022-04-04T17:58:15"
-    }
-  },
-  {
-    nom: "tache n3",
-    projet: {
-      nom: "projet n1",
-      datededbut: "2022-04-04T17:57:45",
-      datedefin: "2022-04-04T17:57:45"
-    }
-  }
-];
-
+ 
 const [checkedTache, setCheckedTache] = useState(new Array(tachesFromDB.length).fill(false)); 
 
 const handleChangeTache = (index1,event) => {
@@ -136,129 +89,232 @@ const handleChangeTache = (index1,event) => {
   checkedArray[index1]=event.target.checked;
   event.target.checked=true;
   setCheckedTache(checkedArray); 
-}; 
+};
+
 
 
 var [total, setTotal] = useState(new Array(tachesFromDB.length).fill(parseFloat(0)));
 
-
-//console.log("TOTAL = ",total);
 
 const handleTotal = (value,index) => {
   let newTotal = [...total]
   newTotal[index]=(parseFloat(newTotal[index]) + parseFloat(value));
   total=newTotal;
   if(total[index]!=parseFloat(0)){
-    taches.map((tache,index) => (
+    tachesFromDB.map((tache,index) => (
       dispatch(updateTotalTache(tache.id,total[index]))
       ))
     }
   }
   
+  const [isExpanded, setIsExpanded] = React.useState(new Array(projetsFromDB.length).fill(false));
   
-
+  
   useEffect(() => {
     dispatch(getMonthsheet('254'));
     dispatch(getTachesByCollab('254'));
-  },[dispatch])
-    
-    return (
+    dispatch(getProjetsByCollab('254'));
+  },[dispatch,confirmer])
+  
+  
+  return (
       <React.Fragment>
         <CssBaseline />
-        <Container fixed style={{maxWidth:"100%", height:"auto",minHeight:'79vh', margin:'0', padding:'0',
+        <Container fixed style={{maxWidth:"100%", height:"auto",minHeight:'81vh', margin:'0', padding:'0',
         backgroundImage: `url(https://i.imgur.com/6norrZF.jpg)`, backgroundRepeat:'repeat',backgroundSize: 'cover'
         ,backgroundPosition: 'center center', backgroundAttachment: 'fixed'}}>
           
+          <center>
           <Container maxWidth='false' style={{display:'flex',alignItems:'center',width:'102%',minHeight:'100%'}}  
           >
           <br/>
           <Box
         sx={{
-          '& .MuiTextField-root': { m: 1, width: '22ch',bgcolor: 'grey' }, zIndex:1 , bgcolor: 'white',m:'auto',mt:2 , display:'flex',borderRadius: '5px', boxShadow: 10, flexDirection: 'column', alignItems:'center', overflow:'hidden', minHeight:'100%', width:'100rem', mb:2,ml:-2.7
+          '& .MuiTextField-root': { m: 1, width: '22ch',bgcolor: 'grey' }, zIndex:1 , bgcolor: 'white',m:'auto',mt:2 , display:'flex',borderRadius: '5px', boxShadow: 10, flexDirection: 'column', alignItems:'center', overflow:'hidden', minHeight:'100%', width:'95rem', mb:2,ml:-2
         }}
         
         noValidate
         autoComplete="off"
        >
-        <Button variant="contained"    sx={{bgcolor:'black', borderRadius :1, boxShadow:'0 3px 5px 2px grey',  '&:hover':{background: 'grey'} ,color:'white' ,height:45, position:'absolute', mt:0.6,mb:200,ml:-160}}>Retourner</Button>  
+        <Button variant="contained"  onClick={() => navigate('/collaborateur/acceuil')}  sx={{bgcolor:'black', borderRadius :1, boxShadow:'0 3px 5px 2px grey',  '&:hover':{background: 'grey'} ,color:'white' ,height:45, position:'absolute', mt:0.6,mb:200,ml:-160}}><MdIcons.MdOutlineKeyboardReturn style={{fontSize:'2rem'}} /></Button>  
 
       <br/>
 
-       <div style={{ backgroundColor: '#BABABA', marginTop:'2rem', width:'100%', textAlign:'center', padding:'15px' }}><b>Réalisé en {monthsheet.name}</b></div>
+       <div style={{ backgroundColor: '#BABABA', marginTop:'2rem', width:'100%', textAlign:'center', padding:'15px' }}><b>Réalisé en {monthsheetFromDB.name}</b></div>
   
        <TableContainer component={Paper} sx={{mt:3, overflow:"hidden"}}>
-        <Table sx={{ minWidth: 640, maxWidth:'false' }}  size="small" aria-label="simple table">
+        <Table size="small" sx={{ minWidth: 640, maxWidth:'false',width:'fit-content' }} aria-label="simple table">
           <TableHead>
             <TableRow>
-            <StyledTableCell align="right" style={{backgroundColor:'white'}}></StyledTableCell>
-            {monthsheet.daysheets.map((daysheet) => ( 
+            <StyledTableCell align="right" style={{backgroundColor:'white',width:'100%',border:'0'}}></StyledTableCell>
+            {monthsheetFromDB.daysheets.map((daysheet) => ( 
               <>
-              { daysheet.weekend ?  <StyledTableCell align="right" style={{backgroundColor:'black'}}>{daysheet.daynumber}</StyledTableCell> : <StyledTableCell align="right" style={{backgroundColor:'grey', border:'1px solid black'}}>{daysheet.daynumber}</StyledTableCell>}
+              { daysheet.weekend ?  <StyledTableCell width="10" align="right" style={{backgroundColor:'black',maxWidth:'6px',border:"0.1px solid black"}}>{daysheet.daynumber}</StyledTableCell> : <StyledTableCell align="right" style={{backgroundColor:'grey', border:'0.1px solid black',maxWidth:"10px"}}><b>{daysheet.daynumber}</b></StyledTableCell>}
               </>
               ))}
   
-              <StyledTableCell width="33" align="right" style={{backgroundColor:'red'}}><b>TOTAL</b></StyledTableCell>  
+              <StyledTableCell width="33" align="right" style={{backgroundColor:'red',fontSize:'12px',border:'0.1px solid black'}}><b>TOTAL</b></StyledTableCell>  
               
   
               
             </TableRow>
+            <br/>
           </TableHead>
           <TableBody>
-            {taches.map((tache,index1) => (
-              <StyledTableRow
-                key={tache.nom}
-                sx={{ '&:last-child td, &:last-child th': { border: 1 } }}
-              >
-                <StyledTableCell component="th" scope="row" style={{backgroundColor:"grey",color:"white"}}>
-             
+                      {projetsFromDB.map((projet,index) => (
+                        
+                          <><StyledTableRow height="55">
+                          <StyledTableCell padding="checkbox" colSpan={monthsheetFromDB.daysheets.length + 2} sx={{ bgcolor: "black", color: "white" }} scope="row" style={{ width: "130px", borderTop: '2px solid black',borderBottom:'2px solid grey' }}>
+                          <IconButton onClick={() => {
+                              var isExpandedClone = [...isExpanded];
+                              isExpandedClone[index]=!isExpanded[index];
+                              setIsExpanded(isExpandedClone)
+                              }}>
+                              {isExpanded[index] ? <KeyboardArrowUpIcon sx={{ color: 'white',fontSize:'35px' }} /> : <KeyboardArrowDownIcon sx={{ color: 'white',fontSize:'35px' }} />}
+                            </IconButton>
+                            <span style={{ fontSize: '20px' }}><b>{projet.nom}</b></span>
+                           
+                            <span style={{marginLeft:'200px',fontSize:'15px'}}>Total : <b>{projet.total}</b></span>
+                          </StyledTableCell>
+                        </StyledTableRow><>
+                            {isExpanded[index] &&
+
+                              tachesFromDB.map((tache, index1) => (
+                                tache.projet.id == projet.id ?
+                                <StyledTableRow
+                                  key={tache.nom}
+                                  sx={{ height: '6px',m:0,p:0 }}
+                                >
+                                  <StyledTableCell component="th" scope="row" style={{ backgroundColor: "grey", color: "white" }}>
+
+                                    <FormGroup>
+                                      <FormControlLabel style={{ maxWidth: "170px", margin: "-13px" }} labelPlacement="start" control={<Checkbox color="default" onClick={(e) => handleChangeTache(index1, e)} checked={checkedTache[index1]} />} label={tache.nom} />
+                                    </FormGroup>
+                                  </StyledTableCell>
+
+
+
+
+                                  {monthsheetFromDB.daysheets.map((daysheet, index) => (
+                                    <>
+                                      {checkedTache[index1] ? (daysheet.weekend ? <StyledTableCell align="center" style={{ backgroundColor: 'black', borderTop: '2px solid black' }}></StyledTableCell> :
+                                        <StyledTableCell align="center">
+                                          <input readOnly={monthsheetFromDB.confirmer} defaultValue={daysheet.inputcollab[index1]} type="text" style={monthsheetFromDB.confirmer ? inputcellConfirmed : inputcell} onBlur={(e) => {
+                                            if(e.target.value > 1) {
+                                              setWarningInput(true);
+                                              e.target.focus();
+                                              timeout = setTimeout(() => {
+                                                setWarningInput(false);
+                                              }, 5000);
+                                            }else{
+                                              let totalday = 0;
+                                              for (let i = 0; i < daysheet.inputcollab.length; i++) {
+                                                  totalday+=parseFloat(daysheet.inputcollab[i]);
+                                              }
+                                              totalday+=parseFloat(e.target.value);
+                                              console.log(totalday);
+                                              if(totalday>1){
+                                                setWarningInputJour(true);
+                                                e.target.focus();
+                                                timeout = setTimeout(() => {
+                                                setWarningInputJour(false);
+                                                }, 5000);
+
+                                              }else{
+                                                dispatch(updateDaysheet(monthsheetFromDB.id,daysheet.id, e.target.value, index1));
+                                                dispatch(updateTotalTache(tache.id,e.target.value));
+
+                                              }
+                                            }
+                                          }} />
+                                        </StyledTableCell>) : <></>}
+
+                                    </>
+
+                                  ))}
+
+                                  {checkedTache[index1] ? <StyledTableCell width="35" align="center" style={{ backgroundColor: 'red', color: 'white' }}><b>{tache.total}</b></StyledTableCell> : <></>}
+
+                                </StyledTableRow>
+                                  : 
+                                  null
+                              )
                 
-               <FormGroup>
-                  <FormControlLabel  style={{width:"130px", margin:"-12px",textAlign:'left'}} labelPlacement="start" control={<Checkbox color="default"   onClick={(e)=>handleChangeTache(index1,e)} checked={checkedTache[index1]}/>} label={tache.nom} />
-              </FormGroup>
-                </StyledTableCell>
-                  
-                
-  
-                {monthsheet.daysheets.map((daysheet,index) => (
-                  <>
-                    {checkedTache[index1] ?  (daysheet.weekend ? <StyledTableCell align="center" style={{ backgroundColor: 'black', borderTop: '2px solid black' }}></StyledTableCell> : 
-                    <StyledTableCell align="center">
-                    <input defaultValue={daysheet.inputcolab[index1]} type="text" style={inputcell} onBlur={(e) => (dispatch(updateDaysheet(daysheet.id,e.target.value,index1)))} onLoad={handleTotal(daysheet.inputcolab[index1],index1)} />
-                    </StyledTableCell>) : <></> }
-                   
-                  </>
-  
-                ))}
-  
-                {checkedTache[index1] ? <StyledTableCell width="35" align="center" style={{ backgroundColor: 'red', color: 'white' }}  ><b>{total[index1]}</b></StyledTableCell> : <></> }
-  
-              </StyledTableRow>
-            ))}
+                                
+                              )}
+
+                          </></>
+                       
+                      ))}
+                           
+                              
+                            
+           
                 <br></br>
             <StyledTableRow
                 sx={{ '&:last-child td, &:last-child th': { border: 1 } }}>
-                   <StyledTableCell width="35" align="center" style={{ backgroundColor: 'red', color:"white",}}>TOTAL</StyledTableCell>
-                    {monthsheet.daysheets.map((daysheet,index) => (
+                   <StyledTableCell width="35" align="center" style={{ backgroundColor: 'red', color:"white",border:'0.1px solid black',fontSize:'15px'}}><b>TOTAL</b></StyledTableCell>
+                    {monthsheetFromDB.daysheets.map((daysheet,index) => (
                     <>
-                    {daysheet.weekend ? <StyledTableCell align="center" width="1" style={{ backgroundColor: 'black', borderTop: '2px solid black' }}></StyledTableCell> : <StyledTableCell  align="center" style={{backgroundColor : 'red', color:'white'}}>{daysheet.totalperday}</StyledTableCell>}
+                    {daysheet.weekend ? <StyledTableCell style={{ backgroundColor: 'black', border:'0.1px solid black' }}></StyledTableCell> : <StyledTableCell   style={{backgroundColor : 'red', color:'white',height:'40px',maxWidth: "45px",border:'0.1px solid black'}}>{Number(daysheet.totalperday).toFixed(2)}</StyledTableCell>}
                     </>
                   ))}
+                  <StyledTableCell style={{backgroundColor :'red', color:'white',fontSize:'14px',border:'0.1px solid black'}}>
+                    <b>{Number(monthsheetFromDB.totalpermonth).toFixed(2)}</b>
+                  </StyledTableCell>
                   
                 </StyledTableRow>
             
           </TableBody>
         </Table>
+        <Container sx={{display:'flex',alignContent:'center'}}>
+                {
+                  warningInput &&
+                  <center>
+                <Alert style={{margin:'15px',width:'330px',left:'38%',position:'absolute'}} severity="warning">
+                  Veuillez entrer un nombre entre 0 et 1 
+                </Alert>
+                </center>
+     
+                }
+                {
+                  warningInputJour &&
+                  <center>
+                <Alert style={{margin:'15px',width:'330px',left:'38%',position:'absolute'}} severity="warning">
+                  Le total du jour ne peut pas dépasser 1
+                </Alert>
+                </center>
+     
+                }
+
+                {
+                  (monthsheetFromDB.confirmer || confirmer) &&
+                  <center>
+                <Alert style={{margin:'15px',width:'330px',left:'38%',position:'absolute'}} severity="success">
+                  Cette monthsheet a été confirmée!
+                </Alert>
+                </center>
+     
+                }
+  
+  
+        
+                <Button variant="contained"  
+                onClick={() =>
+                  {if (monthsheetFromDB.totalpermonth>= 21){
+                  setConfirmer(true);
+                  dispatch(updateConfirmerMonthsheet(monthsheetFromDB.id));
+
+                   }
+                  } 
+                 }  
+                 sx={{bgcolor:'black', borderRadius :1, boxShadow:'0 3px 5px 2px grey',  '&:hover':{background: 'grey'} ,color:'white' ,height:45,mt:2,mb:2,left:1100}}>Confirmer<AiIcons.AiOutlineCheck style={{fontSize:'20px'}} /></Button>  
+          </Container>
       </TableContainer>
-      
-      
-      
-      
-  
-  
            </Box>
       </Container> 
+           </center>
       </Container>
       </React.Fragment>
     )
   }
-export default MonthsheetTest;

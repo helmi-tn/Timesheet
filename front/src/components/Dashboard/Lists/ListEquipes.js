@@ -9,7 +9,7 @@ import { getAllEquipes,getEquipe,deleteEquipe,updateEquipe } from '../../../acti
 import { getAllComptes } from '../../../actions/admin/comptes';
 import equipe from '../../../reducers/collab/equipe';
 import { Table,Modal,Form } from 'react-bootstrap';
-import { updateCollaborateursEquipe } from '../../../api';
+import { updateCollabsEquipe } from '../../../actions/admin/comptes';
 
 
 
@@ -19,18 +19,22 @@ function ListEquipes() {
   let timeout;
 
   
+  const [optionsCollab,setOptionsCollab] = useState([]);
 
-  const [options,setOptions] = useState([]);
-
-  const handleChangeSelect = ((e) => {
-    let value = Array.from(e.target.selectedOptions,(option) => option.value)
-    setOptions(value);
+  const handleChangeSelectCollab = ((e) => {
+    let value = Array.from(e.target.selectedOptions,(optionCollab) => optionCollab.value)
+    setOptionsCollab(value);
   })
+
+
   const [showModifier, setShowModifier] = useState(false);
   const handleCloseModifier = () => setShowModifier(false);
 
   const [showDelete,setShowDelete] = useState(false);
-  const handleCloseDelete = () => setShowDelete(false);
+  const handleCloseDelete = () => {
+    setShowDelete(false)
+    window.location.reload(false);
+  };
   const handleShowDelete = ((id) => {
     dispatch(getEquipe(id));
     setShowDelete(true);
@@ -40,43 +44,42 @@ function ListEquipes() {
     dispatch(getEquipe(id));
     timeout = setTimeout(() => {
       setShowModifier(true);
-      setPostDataEquipe({id:equipe.id,nom:equipe.nom})
-      console.log(equipe.nom);
-      console.log(postDataEquipe);
     }, 1000);
  
 
   });
 
-  const handleSubmit = (e) =>{  
-    postDataEquipe.id=equipe.id;
+  const handleSubmit = (e) =>{ 
     console.log(postDataEquipe);
+    console.log(optionsCollab);
     dispatch(updateEquipe(equipe.id,postDataEquipe));
-    dispatch(updateCollaborateursEquipe(equipe.id,options));
+    dispatch(updateCollabsEquipe(equipe.id,optionsCollab));
   }
   
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getAllEquipes());
-    dispatch(getAllComptes());
-  }, [dispatch])
-
+  
   const equipes = useSelector((state) => state.equipes);
   const collaborateurs = useSelector((state) => state.comptes);
   const equipe = useSelector((state) => state.equipe);
-
+  
   const [postDataEquipe,setPostDataEquipe] = useState({
-    id:equipe.id,nom:equipe.nom
-})
-
-
+    id:'',nom:'',responsable:''
+  })
+  
+  
+  useEffect(() => {
+    dispatch(getAllEquipes());
+    dispatch(getAllComptes());
+    if(equipe)
+      setPostDataEquipe(equipe)
+  }, [dispatch,equipe])
   
   return (
     <React.Fragment>
     
     <CssBaseline />
-    <Container fixed style={{maxWidth:"100%", height:"auto",minHeight:'79vh', margin:'0', padding:'0',
+    <Container fixed style={{maxWidth:"100%", height:"auto",minHeight:'81vh', margin:'0', padding:'0',
     backgroundImage: `url(https://i.imgur.com/6norrZF.jpg)`, backgroundRepeat:'repeat',backgroundSize: 'cover'
     ,backgroundPosition: 'center center', backgroundAttachment: 'fixed'}}>
     <Sidebar/>
@@ -92,6 +95,7 @@ function ListEquipes() {
     <tr style={{fontWeight:'700'}}>
       <th><b>#</b></th>
       <th><b>Nom</b></th>
+      <th><b>Responsable</b></th>
       <th><b>Collaborateurs</b></th>
       <th><b>Actions</b></th>
     </tr>
@@ -102,6 +106,7 @@ function ListEquipes() {
     <tr>
       <td><b>{equipe.id}</b></td>
       <td>{equipe.nom}</td>
+      <td>{equipe.responsable}</td>
       <td>
       {collaborateurs.map((collab) => (
          collab.equipe!=null ? collab.equipe.id==equipe.id ? (<>{collab.nom} {collab.prenom} <br/> </>) : (<></>) : (<></>)
@@ -132,14 +137,27 @@ function ListEquipes() {
           <div className="form-group row">
            <label className="col-form-label col-lg-4">Nom :</label>
             <div className="col-lg-4">
-            <input className="form-control" type="text" required Value={equipe.nom} onChange={(e) =>setPostDataEquipe({...postDataEquipe, nom: e.target.value})} />
+            <input className="form-control" type="text" defaultValue={equipe.nom} onLoad={() => postDataEquipe.nom=equipe.nom} onChange={(e) =>setPostDataEquipe({...postDataEquipe, nom: e.target.value})} />
+
            </div>
           </div>
+          <div className="form-group row">
+           <label className="col-form-label col-lg-4">Responsable :</label>
+            <div className="col-lg-5">
+          <Form.Select  defaultValue={equipe.responsable} onLoad={() => postDataEquipe.responsable=equipe.responsable} onClick={(e) =>setPostDataEquipe({...postDataEquipe, responsable: e.target.value})}>
+            {collaborateurs.map((collab) => (
+              <>
+              <option value={`${collab.nom} ${collab.prenom}`}>{collab.nom} {collab.prenom}</option> 
+              </>
+            ))}
+        </Form.Select>
+        </div>
+        </div>
 
             <div className="form-group row">
            <label className="col-form-label col-lg-4">Collaborateurs :</label>
             <div className="col-lg-5">
-            <select multiple className="form-control" value={options} onChange={handleChangeSelect}>
+            <select multiple className="form-control" value={optionsCollab} onChange={handleChangeSelectCollab}>
             {collaborateurs.map((collab) => (
               <>
               <option value={collab.id} selected>{collab.nom} {collab.prenom}</option> 
