@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uib.timesheet.model.Daysheet;
 import com.uib.timesheet.model.Monthsheet;
 import com.uib.timesheet.repository.MonthsheetRepository;
 
@@ -27,4 +28,19 @@ public class MonthsheetService {
 		monthsheetRepository.save(monthsheet);
 	}
 
+	public void updateTotal(Long id) {
+		Monthsheet ms = monthsheetRepository.findById(id).get();
+		Daysheet[] ds = ms.getDaysheets(); 
+		double total =0;
+		for(Daysheet d: ds) {
+			total +=Double.parseDouble(d.getTotalperday());
+		}
+		ms.setTotalpermonth(total);
+		monthsheetRepository.save(ms);
+	}
+	public void setConfirmer(Long id) {
+		Monthsheet ms = monthsheetRepository.findById(id).get();
+		ms.setConfirmer(true);
+		monthsheetRepository.save(ms);
+	}
 }

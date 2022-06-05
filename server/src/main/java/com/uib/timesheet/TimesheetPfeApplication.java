@@ -12,7 +12,7 @@ public class TimesheetPfeApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TimesheetPfeApplication.class, args);
 	}
-	@Bean
+	/*@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
@@ -21,5 +21,5 @@ public class TimesheetPfeApplication {
 
 			}
 		};
-	}
+	}*/
 }

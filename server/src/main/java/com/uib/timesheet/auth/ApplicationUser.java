@@ -1,4 +1,4 @@
-/*package com.uib.timesheet.auth;
+package com.uib.timesheet.auth;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -65,4 +65,4 @@ public class ApplicationUser implements UserDetails{
 		return true;
 	}
 	
-}*/
+}

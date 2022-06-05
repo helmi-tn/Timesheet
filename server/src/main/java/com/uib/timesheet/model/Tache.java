@@ -2,7 +2,6 @@ package com.uib.timesheet.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -11,6 +10,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -30,7 +31,7 @@ public class Tache {
 	private Set<Collaborateur> collaborateurs;
 */
 
-	
+
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="projet_id", nullable=true)
 	@OnDelete(action = OnDeleteAction.CASCADE)

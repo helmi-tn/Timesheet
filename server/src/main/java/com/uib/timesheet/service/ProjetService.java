@@ -1,7 +1,9 @@
 package com.uib.timesheet.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 
@@ -69,5 +71,15 @@ public class ProjetService {
     		totals.add(total);
     	}
     	return totals;
+	}
+	
+	public Set<Projet> getProjetsByCollab(Long id){
+		Collaborateur colab = collaborateurRepository.findById(id).get();
+		List<Tache> taches = colab.getTaches();
+		Set<Projet> projets = new HashSet<Projet> (); 
+		for(Tache t : taches) {
+			projets.add(t.getProjet());
+		}
+		return projets;
 	}
 }

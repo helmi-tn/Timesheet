@@ -53,11 +53,11 @@ public class Daysheet {
 		this.id = id;
 	}
 
-	public String[] getInputcolab() {
+	public String[] getInputcollab() {
 		return inputcollab;
 	}
 
-	public void setInputcolab(String[] inputcolab) {
+	public void setInputcollab(String[] inputcolab) {
 		this.inputcollab = inputcolab;
 	}
 

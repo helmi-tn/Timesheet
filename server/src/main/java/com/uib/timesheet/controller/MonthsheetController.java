@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uib.timesheet.model.Monthsheet;
+import com.uib.timesheet.model.Tache;
 import com.uib.timesheet.service.MonthsheetService;
 
 @CrossOrigin("*")
@@ -44,5 +46,15 @@ public class MonthsheetController {
 	public void update(@RequestBody Monthsheet monthsheet) {
 		monthsheetService.addOrUpdate(monthsheet);
 	}
+	@RequestMapping(value="/total/{id}", produces="application/json", method= {RequestMethod.PATCH})
+	public void updateTotal(@PathVariable Long id) {
+		monthsheetService.updateTotal(id);
+	}
+	@RequestMapping(value="/confirmer/{id}", produces="application/json", method= {RequestMethod.PATCH})
+	public void confirmer(@PathVariable Long id) {
+		monthsheetService.setConfirmer(id);
+	}
+
+
 
 }

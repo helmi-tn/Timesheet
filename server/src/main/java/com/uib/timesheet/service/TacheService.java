@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.uib.timesheet.model.Daysheet;
+import com.uib.timesheet.model.Projet;
 //import com.uib.timesheet.HibernateUtil;
 import com.uib.timesheet.model.Tache;
+import com.uib.timesheet.repository.ProjetRepository;
 import com.uib.timesheet.repository.TacheRepository;
 
 
@@ -25,6 +26,9 @@ public class TacheService {
 	
 	@Autowired
 	private TacheRepository tacheRepository;
+	
+	@Autowired
+	private ProjetRepository projetRepository;
 	
 	
 
@@ -80,8 +84,13 @@ public class TacheService {
     
     public void updatetTotal(Long id_tache,String total) {
     	Tache tache = getById(id_tache);
+    	Projet p = tache.getProjet();
+    	Float totalp = p.getTotal();
+    	totalp += Float.parseFloat(total);
+    	p.setTotal(totalp);
 		tache.setTotal(Float.parseFloat(total));
 		
+		projetRepository.save(p);
 		tacheRepository.save(tache);
     }
     

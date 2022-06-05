@@ -45,6 +45,10 @@ public class CollaborateurController {
 	public Collaborateur findById(@PathVariable Long id) {
 		return collaborateurService.findById(id);
 	}
+	@GetMapping("/collaborateur/{email}")
+	public Collaborateur findByEmail(@PathVariable String email) {
+		return collaborateurService.findByEmail(email);
+	}
 	@GetMapping("/admin/collaborateurs")
 	public List<Collaborateur> getAll(){
 		return collaborateurService.findAll();
@@ -87,9 +91,9 @@ public class CollaborateurController {
 		return collaborateurService.getMonthsheet(id);
 	}
 	
-	@RequestMapping(value="/collaborateur/monthsheet/{id_day}/{order}", produces = "application/json", method= {RequestMethod.PATCH})
-	public void updateDaysheet(@PathVariable long id_day,@PathVariable int order, @RequestBody String input) {
-		daysheetService.update(id_day,order,input);    
+	@RequestMapping(value="/collaborateur/monthsheet/{id_month}/{id_day}/{order}", produces = "application/json", method= {RequestMethod.PATCH})
+	public void updateDaysheet(@PathVariable long id_day,@PathVariable int order,@PathVariable Long id_month, @RequestBody String input) {
+		daysheetService.update(id_day,id_month,order,input);    
 	}
 	@RequestMapping(value="/admin/collaborateur/{equipe_id}", produces="application/json", method= {RequestMethod.PATCH})
 	public void updateCollaborateursEquipe(@PathVariable long equipe_id,@RequestBody List<Long> collabs_id) {

@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name ="projet")
@@ -23,7 +25,10 @@ public class Projet {
 	private String description;
 	
 	private String chef;
-
+	private Float total;
+	
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "projet", orphanRemoval = true)
 	private List<Tache> taches;
 	
@@ -34,7 +39,7 @@ public class Projet {
 
 
 	public Projet(Long id, String nom, LocalDateTime datededbut, LocalDateTime datedefin, String description,
-			String chef) {
+			String chef, Float total, List<Tache> taches) {
 		super();
 		this.id = id;
 		this.nom = nom;
@@ -42,6 +47,32 @@ public class Projet {
 		this.datedefin = datedefin;
 		this.description = description;
 		this.chef = chef;
+		this.total = total;
+		this.taches = taches;
+	}
+
+
+
+	public Float getTotal() {
+		return total;
+	}
+
+
+
+	public void setTotal(Float total) {
+		this.total = total;
+	}
+
+
+
+	public List<Tache> getTaches() {
+		return taches;
+	}
+
+
+
+	public void setTaches(List<Tache> taches) {
+		this.taches = taches;
 	}
 
 

@@ -1,4 +1,4 @@
-/*package com.uib.timesheet.security;
+package com.uib.timesheet.security;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,4 +33,3 @@ public enum ApplicationUserRole {
 		return permissions;
 	}
 }
-*/

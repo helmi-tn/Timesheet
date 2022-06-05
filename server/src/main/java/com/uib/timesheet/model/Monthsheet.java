@@ -21,6 +21,7 @@ public class Monthsheet {
 	private Long id;
 	private String name;
 	private double totalpermonth;
+	private boolean confirmer;
 	
 	/*
 	@ManyToOne
@@ -38,13 +39,30 @@ public class Monthsheet {
 	public Monthsheet() {
 	}
 
-	public Monthsheet(Long id, String name, double totalpermonth, Daysheet[] daysheets) {
+	
+
+	public Monthsheet(Long id, String name, double totalpermonth, boolean confirmer, Daysheet[] daysheets) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.totalpermonth = totalpermonth;
+		this.confirmer = confirmer;
 		this.daysheets = daysheets;
 	}
+
+
+
+	public boolean isConfirmer() {
+		return confirmer;
+	}
+
+
+
+	public void setConfirmer(boolean confirmer) {
+		this.confirmer = confirmer;
+	}
+
+
 
 	public Long getId() {
 		return id;

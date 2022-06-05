@@ -21,10 +21,41 @@ public class Equipe {
 	@GeneratedValue
 	private Long id;
 	private String nom;
+	private String responsable;
 	
+	
+	
+
+	public Equipe() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public Equipe(Long id, String nom, String responsable) {
+		super();
+		this.id = id;
+		this.nom = nom;
+		this.responsable = responsable;
+	}
+
 
 	//@OneToMany(mappedBy="equipe")
 	//private Set<Collaborateur> collaborateurs;
+
+
+	public String getResponsable() {
+		return responsable;
+	}
+
+
+	public void setResponsable(String responsable) {
+		this.responsable = responsable;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 
 	public long getId() {

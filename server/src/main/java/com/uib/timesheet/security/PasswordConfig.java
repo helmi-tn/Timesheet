@@ -1,4 +1,4 @@
-/*package com.uib.timesheet.security;
+package com.uib.timesheet.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,4 +13,3 @@ public class PasswordConfig {
 		return new BCryptPasswordEncoder();
 	}
 }
-*/

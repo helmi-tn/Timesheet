@@ -60,6 +60,9 @@ public class CollaborateurService {
 	public Collaborateur findById(Long id) {
 		return collaborateurRepository.findById(id).get();
 	}
+	public Collaborateur findByEmail(String email) {
+		return collaborateurRepository.findByEmail(email);
+	}
 	public void updateCollab(Collaborateur cb) {
 		collaborateurRepository.save(cb);
 	}
@@ -71,6 +74,7 @@ public class CollaborateurService {
 		collaborateurRepository.deleteById(id);
 	}
 	
+	
 	public List<Collaborateur> findByIdEquipe(Long equipeId){
 		Query query = entityManager.createQuery("FROM Collaborateur C "
 				+ "JOIN C.equipe CE "
@@ -78,6 +82,8 @@ public class CollaborateurService {
 		query.setParameter("EquipeId", equipeId);
 		return  query.getResultList();
 	}
+	
+	
 	
 	public List<Collaborateur> findByIdTache(Long tacheId){
 		Query query = entityManager.createQuery("FROM Collaborateur C "
@@ -155,7 +161,7 @@ public class CollaborateurService {
 				sameCollectionOfInputs = inputs.clone();
 				Daysheet ds = new Daysheet();	
 				
-				ds.setInputcolab(sameCollectionOfInputs);
+				ds.setInputcollab(sameCollectionOfInputs);
 				ds.setDaynumber(j);
 					
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
@@ -174,7 +180,7 @@ public class CollaborateurService {
 				sameCollectionOfInputs = inputs.clone();
 				Daysheet ds = new Daysheet();	
 				
-				ds.setInputcolab(sameCollectionOfInputs);
+				ds.setInputcollab(sameCollectionOfInputs);
 				ds.setDaynumber(j);
 				
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
@@ -193,7 +199,7 @@ public class CollaborateurService {
 					sameCollectionOfInputs = inputs.clone();
 					Daysheet ds = new Daysheet();	
 					
-					ds.setInputcolab(sameCollectionOfInputs);
+					ds.setInputcollab(sameCollectionOfInputs);
 					ds.setDaynumber(j);
 					
 					if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
@@ -212,7 +218,7 @@ public class CollaborateurService {
 					sameCollectionOfInputs = inputs.clone();
 					Daysheet ds = new Daysheet();	
 					
-					ds.setInputcolab(sameCollectionOfInputs);
+					ds.setInputcollab(sameCollectionOfInputs);
 					ds.setDaynumber(j);
 					
 					if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
@@ -231,7 +237,7 @@ public class CollaborateurService {
 				sameCollectionOfInputs = inputs.clone();
 				Daysheet ds = new Daysheet();	
 				
-				ds.setInputcolab(sameCollectionOfInputs);
+				ds.setInputcollab(sameCollectionOfInputs);
 				ds.setDaynumber(j);
 		
 	
@@ -253,7 +259,7 @@ public class CollaborateurService {
 				sameCollectionOfInputs = inputs.clone();
 				Daysheet ds = new Daysheet();	
 				
-				ds.setInputcolab(sameCollectionOfInputs);
+				ds.setInputcollab(sameCollectionOfInputs);
 				ds.setDaynumber(j);
 				
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
@@ -272,7 +278,7 @@ public class CollaborateurService {
 				sameCollectionOfInputs = inputs.clone();
 				Daysheet ds = new Daysheet();	
 				
-				ds.setInputcolab(sameCollectionOfInputs);
+				ds.setInputcollab(sameCollectionOfInputs);
 				ds.setDaynumber(j);
 
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
@@ -292,7 +298,7 @@ public class CollaborateurService {
 				sameCollectionOfInputs = inputs.clone();
 				Daysheet ds = new Daysheet();	
 				
-				ds.setInputcolab(sameCollectionOfInputs);
+				ds.setInputcollab(sameCollectionOfInputs);
 				ds.setDaynumber(j);
 
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
@@ -312,7 +318,7 @@ public class CollaborateurService {
 				sameCollectionOfInputs = inputs.clone();
 				Daysheet ds = new Daysheet();	
 				
-				ds.setInputcolab(sameCollectionOfInputs);
+				ds.setInputcollab(sameCollectionOfInputs);
 				ds.setDaynumber(j);
 
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
@@ -331,7 +337,7 @@ public class CollaborateurService {
 				sameCollectionOfInputs = inputs.clone();
 				Daysheet ds = new Daysheet();	
 				
-				ds.setInputcolab(sameCollectionOfInputs);
+				ds.setInputcollab(sameCollectionOfInputs);
 				ds.setDaynumber(j);
 
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
@@ -350,7 +356,7 @@ public class CollaborateurService {
 				sameCollectionOfInputs = inputs.clone();
 				Daysheet ds = new Daysheet();	
 				
-				ds.setInputcolab(sameCollectionOfInputs);
+				ds.setInputcollab(sameCollectionOfInputs);
 				ds.setDaynumber(j);
 
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {
@@ -369,7 +375,7 @@ public class CollaborateurService {
 				sameCollectionOfInputs = inputs.clone();
 				Daysheet ds = new Daysheet();	
 				
-				ds.setInputcolab(sameCollectionOfInputs);
+				ds.setInputcollab(sameCollectionOfInputs);
 				ds.setDaynumber(j);
 
 				if(getDayOfTheWeek(i,j)==0 || getDayOfTheWeek(i,j)==6) {

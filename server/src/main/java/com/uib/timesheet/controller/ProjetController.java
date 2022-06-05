@@ -1,7 +1,7 @@
 package com.uib.timesheet.controller;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -53,6 +53,9 @@ public class ProjetController {
 	public List<Float> getTotals(){
 		return projetService.getTotalAll();
 	}
-
+	@GetMapping("percollaborateur/{id}")
+	public Set<Projet> getProjetsByCollab(@PathVariable Long id){
+		return projetService.getProjetsByCollab(id);
+	}
 	
 }
