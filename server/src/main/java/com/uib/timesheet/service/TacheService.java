@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.uib.timesheet.model.CollaborateurTache;
 import com.uib.timesheet.model.Projet;
 //import com.uib.timesheet.HibernateUtil;
 import com.uib.timesheet.model.Tache;
+import com.uib.timesheet.repository.CollaborateurTacheRepository;
 import com.uib.timesheet.repository.ProjetRepository;
 import com.uib.timesheet.repository.TacheRepository;
 
@@ -29,6 +31,9 @@ public class TacheService {
 	
 	@Autowired
 	private ProjetRepository projetRepository;
+	
+	@Autowired
+	private CollaborateurTacheRepository collaborateurTacheRepository;
 	
 	
 
@@ -75,6 +80,8 @@ public class TacheService {
     	return  query.getResultList();
     }
     
+    
+    /////////////////////
     public List<Tache> findByCollaborateurId(Long CollabId){
     	Query query = entityManager.createQuery("SELECT C.taches FROM Collaborateur C "
     			+ "WHERE C.id = :Id");
@@ -82,7 +89,21 @@ public class TacheService {
     	return  query.getResultList();
     }
     
-    public void updatetTotal(Long id_tache,String total) {
+    public void updatetTotal(Long id_collab,Long id_tache,String total) {
+    	List<CollaborateurTache> ct = (List<CollaborateurTache>) collaborateurTacheRepository.findAll();
+    	for(CollaborateurTache tt:ct) {
+    			Long collabid = tt.getCollaborateur().getId().longValue();
+    			Long tacheid = tt.getTache().getId().longValue();
+    		if(collabid==id_collab.longValue() && tacheid==id_tache.longValue()) {
+    			Float newtotal = tt.getTotalparcollab()+ Float.parseFloat(total);
+    			tt.setTotalparcollab(newtotal);
+    			collaborateurTacheRepository.save(tt);
+    			break;
+    		}
+    	}
+
+    	
+    	
     	Tache tache = getById(id_tache);
     	Projet p = tache.getProjet();
     	Float totalp = p.getTotal();

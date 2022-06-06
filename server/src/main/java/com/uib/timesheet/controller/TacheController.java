@@ -69,9 +69,9 @@ public class TacheController {
 	public List<Tache> getByColabId(@PathVariable Long collabId){
 		return tacheService.findByCollaborateurId(collabId);
 	}
-	@RequestMapping(value="/updatetotal/{id_tache}",produces = "application/json",  method= {RequestMethod.PATCH})
-	public void updateTotalTache(@PathVariable Long id_tache,@RequestBody String total) {
-		tacheService.updatetTotal(id_tache, total);
+	@RequestMapping(value="/{id_collab}/updatetotal/{id_tache}",produces = "application/json",  method= {RequestMethod.PATCH})
+	public void updateTotalTache(@PathVariable Long id_collab,@PathVariable Long id_tache,@RequestBody String total) {
+		tacheService.updatetTotal(id_collab,id_tache, total);
 	}
 	
 }

@@ -4,22 +4,23 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uib.timesheet.model.Collaborateur;
+import com.uib.timesheet.model.CollaborateurTache;
 import com.uib.timesheet.model.Monthsheet;
 import com.uib.timesheet.model.Tache;
 import com.uib.timesheet.service.CollaborateurService;
+import com.uib.timesheet.service.CollaborateurTacheService;
 import com.uib.timesheet.service.DaysheetService;
 import com.uib.timesheet.service.MonthsheetService;
 
@@ -36,8 +37,11 @@ public class CollaborateurController {
 	@Autowired
 	private CollaborateurService collaborateurService;
 	
-	//@Autowired
-	//private PasswordEncoder passwordEncoder;
+	@Autowired
+	private CollaborateurTacheService collaborateurTacheService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	////ADMIN SIDE
 	
@@ -56,7 +60,7 @@ public class CollaborateurController {
 	
 	@PostMapping("/admin/collaborateurs")
 	public void addCollaborateur(@RequestBody Collaborateur cb){
-		//cb.setMotdepasse(passwordEncoder.encode(cb.getMotdepasse()));
+		cb.setMotdepasse(passwordEncoder.encode(cb.getMotdepasse()));
 		collaborateurService.addCollaborateur(cb);
 	}
 	
@@ -90,6 +94,12 @@ public class CollaborateurController {
 	public Monthsheet getMonthsheet(@PathVariable Long id) {
 		return collaborateurService.getMonthsheet(id);
 	}
+	
+	@GetMapping("/admin/collaborateur/tachestotal/{id}")
+		public Set<CollaborateurTache> getTachesEtTotales(@PathVariable Long id){
+			return collaborateurTacheService.findByCollabId(id);
+	}
+	
 	
 	@RequestMapping(value="/collaborateur/monthsheet/{id_month}/{id_day}/{order}", produces = "application/json", method= {RequestMethod.PATCH})
 	public void updateDaysheet(@PathVariable long id_day,@PathVariable int order,@PathVariable Long id_month, @RequestBody String input) {

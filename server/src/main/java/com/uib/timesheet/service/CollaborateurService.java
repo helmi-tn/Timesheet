@@ -16,11 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uib.timesheet.model.Collaborateur;
+import com.uib.timesheet.model.CollaborateurTache;
 import com.uib.timesheet.model.Daysheet;
 import com.uib.timesheet.model.Monthsheet;
 import com.uib.timesheet.model.Projet;
 import com.uib.timesheet.model.Tache;
 import com.uib.timesheet.repository.CollaborateurRepository;
+import com.uib.timesheet.repository.CollaborateurTacheRepository;
 import com.uib.timesheet.repository.DaysheetRepository;
 import com.uib.timesheet.repository.EquipeRepository;
 import com.uib.timesheet.repository.MonthsheetRepository;
@@ -48,6 +50,8 @@ public class CollaborateurService {
 	private TacheRepository tacheRepository;
 	@Autowired
 	private EquipeRepository equipeRepository;
+	@Autowired
+	private CollaborateurTacheRepository collaborateurTacheRepository;
 	
 	private EquipeService equipeService;
 	
@@ -84,7 +88,7 @@ public class CollaborateurService {
 	}
 	
 	
-	
+	////////////
 	public List<Collaborateur> findByIdTache(Long tacheId){
 		Query query = entityManager.createQuery("FROM Collaborateur C "
 				+ "JOIN C.taches CT "
@@ -394,8 +398,20 @@ public class CollaborateurService {
 			arrayOfMonths.add(ms); 	//////////////////////4
 			
 			}
-		cb.setMonthsheets(arrayOfMonths);		///////////////////////////5
-		collaborateurRepository.save(cb);
+		
+		
+			cb.setMonthsheets(arrayOfMonths);		///////////////////////////5
+			System.out.println("Wselna kbal collabtaches !");
+			collaborateurRepository.save(cb);
+			for(Tache t : taches) {
+				System.out.println("i");
+				CollaborateurTache ct = new CollaborateurTache();
+				ct.setCollaborateur(cb);
+				ct.setTache(t);
+				ct.setTotalparcollab(Float.parseFloat("0"));
+				collaborateurTacheRepository.save(ct);
+			}
+		
 			
 		}
 	
@@ -478,6 +494,7 @@ public class CollaborateurService {
 		collab.setTaches(taches);
 		updateCollab(collab);
 	}
+	
 	
 	
 	
