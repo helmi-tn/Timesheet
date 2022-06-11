@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,11 @@ public class ProjetService {
 	public void addOrUpdateProjet(Projet pt) {
 		projetRepository.save(pt);
 	}
-	
+	public Projet getProjetByNom(String nomprojet) {
+    	Query query = entityManager.createQuery("FROM Projet P WHERE P.nom = :nomprojet");
+    	query.setParameter("nomprojet", nomprojet);
+    	return  (Projet) query.getSingleResult();
+    }
 
 	public Float getTotal(Long id) {
 		Projet projet = findById(id);
@@ -59,15 +64,10 @@ public class ProjetService {
 	public List<Float> getTotalAll(){
 		List<Projet> projets = findAll();
 		List<Float> totals = new ArrayList<Float>(projets.size()+1);
-    	List<Tache> taches = (List<Tache>) tacheRepository.findAll();
     	for(int i=0;i<projets.size();i++) {
     		Projet projet = projets.get(i);
-    		Float total=(float) 0;
-    		for(int j=0; j<taches.size() ; j++) {
-        		if(taches.get(j).getProjet()==projet) {
-        			total+=taches.get(j).getTotal();
-        		}
-        	}
+    		Float total= projet.getTotal();
+    		
     		totals.add(total);
     	}
     	return totals;

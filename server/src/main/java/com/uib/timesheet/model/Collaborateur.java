@@ -45,7 +45,7 @@ public class Collaborateur {
     private Equipe equipe;
 	
 
-	@ManyToMany(cascade = CascadeType.MERGE)
+	@ManyToMany //
 	private List<Tache> taches;
 	
 	@JsonIgnore

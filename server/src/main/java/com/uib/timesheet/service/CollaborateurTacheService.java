@@ -35,4 +35,8 @@ public class CollaborateurTacheService {
 		return newct;
 		
 	}
+	
+	public List<CollaborateurTache> findAll(){
+		return (List<CollaborateurTache>) collaborateurTacheRepository.findAll();
+	}
 }

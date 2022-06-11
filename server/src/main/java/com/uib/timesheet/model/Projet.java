@@ -1,5 +1,6 @@
 package com.uib.timesheet.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,8 +21,8 @@ public class Projet {
 	@GeneratedValue
 	private Long id;
 	private String nom;
-	private LocalDateTime datededbut;
-	private LocalDateTime datedefin;
+	private LocalDate datededbut;
+	private LocalDate datedefin;
 	private String description;
 	
 	private String chef;
@@ -38,7 +39,7 @@ public class Projet {
 
 
 
-	public Projet(Long id, String nom, LocalDateTime datededbut, LocalDateTime datedefin, String description,
+	public Projet(Long id, String nom, LocalDate datededbut, LocalDate datedefin, String description,
 			String chef, Float total, List<Tache> taches) {
 		super();
 		this.id = id;
@@ -101,25 +102,25 @@ public class Projet {
 
 
 
-	public LocalDateTime getDatededbut() {
+	public LocalDate getDatededbut() {
 		return datededbut;
 	}
 
 
 
-	public void setDatededbut(LocalDateTime datededbut) {
+	public void setDatededbut(LocalDate datededbut) {
 		this.datededbut = datededbut;
 	}
 
 
 
-	public LocalDateTime getDatedefin() {
+	public LocalDate getDatedefin() {
 		return datedefin;
 	}
 
 
 
-	public void setDatedefin(LocalDateTime datedefin) {
+	public void setDatedefin(LocalDate datedefin) {
 		this.datedefin = datedefin;
 	}
 

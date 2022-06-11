@@ -12,5 +12,6 @@ import com.uib.timesheet.model.Tache;
 public interface TacheRepository extends CrudRepository<Tache,Long>{
 
 	Optional<Tache> findById(Long id);
+	Tache findByNom(String nom);
 	
 }
